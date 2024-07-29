@@ -44,10 +44,13 @@
 
     .menu {
       background: #5bc995;
-      height: 100vh;
+      border-radius: 29px;
+      height: 70vh;
       width: 240px;
       position: fixed;
+      
       top: 145px;
+      margin-left: 10px;
       left: 0;
       z-index: 5;
       outline: none;
@@ -56,6 +59,7 @@
       background: rgba(0, 0, 0, 0.1);
       padding: 2em 0.5em;
       text-align: center;
+      border-radius: 29px;
     }
     .menu .avatar img {
       width: 100px;
@@ -211,7 +215,36 @@
         pointer-events: none;
       }
     }
+    .menu {
+      background: #5bc995;
+      border-radius: 29px;
+      height: 70vh;
+      width: 240px;
+      position: fixed;
+      
+      top: 145px;
+      margin-left: 10px;
+      left: 0;
+      z-index: 5;
+      outline: none;
+    }
+    .bs-example{
+      width: 112%;
+      height: 80px;
+background-color: #E1E1E1;
+border-radius: 20px;
+margin: 15px;
+position: relative;
+right: 240px;
 
+    }
+    .navbar-brand{
+      
+      margin-top: 8.5px;
+      margin-left: 5px ;
+      font-weight: 600;
+    
+    }
   </style>
 </head>
 
@@ -226,21 +259,21 @@
       <h2>{{request.user.first_name}}</h2>
     </header>
     <ul>
-      <li tabindex="0" class="icon-dashboard"> <a style="color:white; text-decoration:none;" href="/doctor-dashboard"><span>Dashboard</span></a> </li>
-      <li tabindex="0" class="icon-users"> <a style="color:white; text-decoration:none;" href="/doctor-patient"><span>Patient</span></a></li>
-      <li tabindex="0" class="icon-calendar"> <a style="color:white; text-decoration:none;" href="/doctor-appointment"><span>Appointments</span></a></li>
+      <li tabindex="0" style="font-size: 20px;" class="icon-dashboard"> <a style="color:white; text-decoration:none;" href="/doctor-dashboard"><span>Dashboard</span></a> </li>
+      <li tabindex="0" style="font-size: 20px;" class="icon-users"> <a style="color:white; text-decoration:none;" href="/doctor-patient"><span>Patient</span></a></li>
+      <li tabindex="0" style="font-size: 20px;" class="icon-calendar"> <a style="color:white; text-decoration:none;" href="/doctor-appointment"><span>Appointments</span></a></li>
     </ul>
   </nav>
   <main>
     <!-- nav start -->
     <div class="bs-example">
-      <nav class="navbar navbar-expand-md  navbar-dark fixed-top" style="background:#337AB7;">
-        <a href="/doctor-dashboard" class="navbar-brand">HOSPITAL MANAGEMENT</a>
+      <nav class="navbar navbar-expand-md  navbar-dark fixed-top">
+        <a href="/doctor-dashboard" class="navbar-brand" style="color: #252B61;">MedSafe</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-          <div class="navbar-nav" style=" margin-left: 90%;">
+          <div class="navbar-nav" style=" margin-left: 95%;">
 
             <form method="post" action="logout/">
               {% csrf_token %}
@@ -257,25 +290,7 @@
     {% endblock content %}
     <!-- content end-->
     <br><br><br><br><br><br><br>
-    <footer>
-      <p>
-        <a id="ftr" href="https://facebook.com/sumit.luv/" class="fa fa-facebook"></a>
-        <a id="ftr" href="https://api.whatsapp.com/send?phone=919572181024&text=Hello%20Sumit.%0d%0aHow%20are%20you%20%3f%0d%0aI%20came%20from%20your%20website.&source=&data=#" class="fa fa-whatsapp"></a>
-        <a id="ftr" href="https://instagram.com/sumit.luv" class="fa fa-instagram"></a>
-        <a id="ftr" href="https://twitter.com/sumitkumar1503" class="fa fa-twitter"></a>
-      </p>
-      <br>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 col-sm-12">
-            <div style="color:#ffffff;" class="wow fadeInUp footer-copyright">
-              <p>Made in India <br>
-                Copyright &copy; 2020 LazyCoder </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+   
   </main>
   <!-- partial -->
 </body>

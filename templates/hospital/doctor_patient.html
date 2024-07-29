@@ -49,7 +49,10 @@
 
 
     .card {
-      border-radius: 5px;
+      margin-top: 50px;
+      height: 300px;
+      width: 400px;
+      border-radius: 29px;
       -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
       box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
       border: none;
@@ -57,6 +60,7 @@
       -webkit-transition: all 0.3s ease-in-out;
       transition: all 0.3s ease-in-out;
     }
+
 
     .card .card-block {
       padding: 25px;
@@ -73,6 +77,46 @@
     .f-right {
       float: right;
     }
+    .menu {
+      background: #5bc995;
+      border-radius: 29px;
+      height: 70vh;
+      width: 240px;
+      position: fixed;
+      
+      top: 145px;
+      margin-left: 10px;
+      left: 0;
+      z-index: 5;
+      outline: none;
+    }
+    .bs-example{
+      width: 98%;
+      height: 80px;
+background-color: #E1E1E1;
+border-radius: 20px;
+margin: 15px;
+position: fixed;
+left: 0px;
+    }
+    .navbar-brand{
+      
+      margin-top: 21px;
+      margin-left: 15px;
+    
+    }
+    .navbar-nav{
+      margin-top: 21px;
+    }
+    .row{
+      position: absolute;
+
+      left: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+
+    }
   </style>
 </head>
 
@@ -83,7 +127,7 @@
       <div class="card bg-c-blue order-card">
         <div class="card-block">
           <a href="/doctor-view-patient">
-            <h6 class="m-b-20">Your Patient Record</h6>
+            <h6 class="m-b-20" style="font-size: 30px;">Your Patient Record</h6>
           </a>
           <br>
           <h2 class="text-right"><i class="fas fa-user-injured f-left"></i></h2>
@@ -97,7 +141,7 @@
       <div class="card bg-c-pink order-card">
         <div class="card-block">
           <a href="/doctor-view-discharge-patient">
-            <h6 class="m-b-20">Your Discharged Patient</h6>
+            <h6 class="m-b-20" style="font-size: 30px;">Your Discharged Patient</h6>
           </a>
           <br>
           <h2 class="text-right"><i class="fas fa-eject f-left"></i></h2>
