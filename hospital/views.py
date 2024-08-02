@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect,reverse
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from . import forms,models
 from django.db.models import Sum
@@ -42,6 +43,8 @@ def patientclick_view(request):
 
 def admin_signup_view(request):
     form=forms.AdminSigupForm()
+    users_in_group = User.objects.filter(groups__name="ADMIN")
+    user_names = [user.username for user in users_in_group]
     if request.method=='POST':
         if 'signup' in request.POST:
             form=forms.AdminSigupForm(request.POST)
@@ -55,9 +58,10 @@ def admin_signup_view(request):
         elif 'login' in request.POST:
             username= request.POST.get("username")
             password= request.POST.get("password")
-            user = authenticate(request,username=username,password=password)
-            login(request,user)
-            return redirect('afterlogin')
+            if username in user_names:
+                user = authenticate(request,username=username,password=password)
+                login(request,user)
+                return redirect('afterlogin')
     return render(request,'admin_login.html',{'form':form})
 
 
@@ -67,6 +71,8 @@ def doctor_signup_view(request):
     userForm=forms.DoctorUserForm()
     doctorForm=forms.DoctorForm()
     mydict={'userForm':userForm,'doctorForm':doctorForm}
+    users_in_group = User.objects.filter(groups__name="DOCTOR")
+    user_names = [user.username for user in users_in_group]
     if request.method=='POST':
         if 'signup' in request.POST:
             userForm=forms.DoctorUserForm(request.POST)
@@ -84,9 +90,10 @@ def doctor_signup_view(request):
         elif 'login' in request.POST:
             username= request.POST.get("username")
             password= request.POST.get("password")
-            user = authenticate(request,username=username,password=password)
-            login(request,user)
-            return redirect('afterlogin')
+            if username in user_names:
+                user = authenticate(request,username=username,password=password)
+                login(request,user)
+                return redirect('afterlogin')
     return render(request,'doctor_login.html',context=mydict)
 
 
@@ -94,6 +101,8 @@ def patient_signup_view(request):
     userForm=forms.PatientUserForm()
     patientForm=forms.PatientForm()
     mydict={'userForm':userForm,'patientForm':patientForm}
+    users_in_group = User.objects.filter(groups__name="DOCTOR")
+    user_names = [user.username for user in users_in_group]
     if request.method=='POST':
         if 'signup' in request.POST:
             userForm=forms.PatientUserForm(request.POST)
@@ -112,9 +121,10 @@ def patient_signup_view(request):
         elif 'login' in request.POST:
             username= request.POST.get("username")
             password= request.POST.get("password")
-            user = authenticate(request,username=username,password=password)
-            login(request,user)
-            return redirect('afterlogin')
+            if username in user_names:
+                user = authenticate(request,username=username,password=password)
+                login(request,user)
+                return redirect('afterlogin')
     return render(request,'patient_login.html',context=mydict)
 
 
