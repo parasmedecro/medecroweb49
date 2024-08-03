@@ -307,6 +307,33 @@ def reject_doctor_view(request,pk):
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
+def availability_view(request):
+    doctors=models.Doctor.objects.all().filter(status=True)
+    return render(request,'availability_view.html',{'doctors':doctors})
+
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def avail_doctor(request,pk):
+    doctor=models.Doctor.objects.get(id=pk)
+    doctor.availability=True
+    doctor.save()
+    return redirect('availability')
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def unavail_doctor(request,pk):
+    doctor=models.Doctor.objects.get(id=pk)
+    doctor.availability=False
+    doctor.save()
+    return redirect('availability')
+
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
 def admin_view_doctor_specialisation_view(request):
     doctors=models.Doctor.objects.all().filter(status=True)
     return render(request,'hospital/admin_view_doctor_specialisation.html',{'doctors':doctors})
@@ -876,8 +903,4 @@ def contactus_view(request):
 #---------------------------------------------------------------------------------
 
 
-
-#Developed By : sumit kumar
-#facebook : fb.com/sumit.luv
-#Youtube :youtube.com/lazycoders
 

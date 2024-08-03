@@ -75,6 +75,9 @@ urlpatterns = [
     path('admin-approve-appointment', views.admin_approve_appointment_view,name='admin-approve-appointment'),
     path('approve-appointment/<int:pk>', views.approve_appointment_view,name='approve-appointment'),
     path('reject-appointment/<int:pk>', views.reject_appointment_view,name='reject-appointment'),
+    path('availability',views.availability_view,name='availability'),
+    path('avail-doctor/<int:pk>',views.avail_doctor,name='avail-doctor'),
+    path('unavail-doctor/<int:pk>',views.unavail_doctor,name='unavail-doctor'),
 ]
 
 
