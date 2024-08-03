@@ -772,6 +772,7 @@ def patient_book_appointment_view(request):
             appointment.patientId=request.user.id #----user can choose any patient but only their info will be stored
             appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
             appointment.patientName=request.user.first_name #----user can choose any patient but only their info will be stored
+            appointment.appointmentDate=request.POST.get('appointment')
             appointment.status=False
             appointment.save()
         return HttpResponseRedirect('patient-view-appointment')
