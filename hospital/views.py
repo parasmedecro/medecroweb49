@@ -101,8 +101,9 @@ def patient_signup_view(request):
     userForm=forms.PatientUserForm()
     patientForm=forms.PatientForm()
     mydict={'userForm':userForm,'patientForm':patientForm}
-    users_in_group = User.objects.filter(groups__name="DOCTOR")
+    users_in_group = User.objects.filter(groups__name="PATIENT")
     user_names = [user.username for user in users_in_group]
+    print(user_names)
     if request.method=='POST':
         if 'signup' in request.POST:
             userForm=forms.PatientUserForm(request.POST)
