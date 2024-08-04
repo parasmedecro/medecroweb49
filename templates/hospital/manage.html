@@ -1,0 +1,28 @@
+{% load static %}
+
+
+
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSafe</title>
+    <link rel="stylesheet" href="{% static "CSS/styles.css" %}">
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="/patient_dashboard">MedTube</a></div>
+    </header>
+    <main>
+        <aside>
+            <div class="manage-section">
+                <h2>Manage Videos</h2>
+                <ul id="videoList"></ul>
+            </div>
+        </aside>
+    </main>
+    <script src="{% static 'JS/scripts.js' %}"></script>
+</body>
+</html>

@@ -901,6 +901,8 @@ def contactus_view(request):
 #---------------------------------------------------------------------------------
 #------------------------ ADMIN RELATED VIEWS END ------------------------------
 #---------------------------------------------------------------------------------
+def patient_medtube(request):
+    return render(request,'hospital/patient_medtube.html')
 
 
 
