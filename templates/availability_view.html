@@ -1,9 +1,11 @@
-{%load static%}
+{% extends 'hospital/admin_base.html' %}
+{% block content %}
 
 <head>
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
   <style media="screen">
     a:link {
       text-decoration: none;
@@ -22,7 +24,7 @@
 <div class="container">
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <h6 class="panel-title">Doctors &nbsp Applied For Registration</h6>
+      <h6 class="panel-title">Doctors Availability Status</h6>
     </div>
     <table class="table table-hover" id="dev-table">
       <thead>
@@ -31,23 +33,41 @@
           <th>Mobile</th>
           <th>Address</th>
           <th>Department</th>
-          <th>Approve</th>
-          <th>Reject</th>
+          <th>Status</th>
+          <th>Available</th>
+          <th>Unavailable</th>
         </tr>
       </thead>
       {% for d in doctors %}
       <tr>
-        <td> {{d.get_name}}</td>
+        <td>{{d.get_name}}</td>
         <td>{{d.mobile}}</td>
         <td>{{d.address}}</td>
         <td>{{d.department}}</td>
-        <td><a class="btn btn-primary btn-xs" href="{% url 'avail-doctor' d.id  %}"><span class="glyphicon glyphicon-ok"></span></a></td>
-        <td><a class="btn btn-danger btn-xs" href="{% url 'unavail-doctor' d.id  %}"><span class="glyphicon glyphicon-remove"></span></a></td>
+        {% if d.availability %}
+        <td><p>Available</p></td>
+        {% else %}
+        <td><p>Unavailable</p></td>
+        {% endif %}
+        <td>
+          <a
+            class="btn btn-primary btn-xs"
+            href="{% url 'avail-doctor' d.id  %}"
+            ><span class="glyphicon glyphicon-ok"></span
+          ></a>
+        </td>
+        <td>
+          <a
+            class="btn btn-danger btn-xs"
+            href="{% url 'unavail-doctor' d.id  %}"
+            ><span class="glyphicon glyphicon-remove"></span
+          ></a>
+        </td>
       </tr>
       {% endfor %}
     </table>
   </div>
-
-
 </div>
 
+
+{% endblock content %}
