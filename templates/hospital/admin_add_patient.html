@@ -7,15 +7,6 @@
     a:link {
       text-decoration: none;
     }
-    .navbar-brand{
-      
-      margin-top: 21px;
-      margin-left: 15px;
-    
-    }
-    .navbar-nav{
-      margin-top: 21px;
-    }
     .note {
       text-align: center;
       height: 80px;
@@ -59,13 +50,23 @@
       outline: none;
     }
     .bs-example{
-      width: 112%;
+      width: 98.5%;
       height: 80px;
-      background-color: #E1E1E1;
-      border-radius: 20px;
-      margin: 15px;
-      right: 240px;
-
+background-color: #E1E1E1;
+border-radius: 20px;
+margin: 15px;
+position: fixed;
+left: 0px;
+    }
+    .navbar-brand{
+      
+      margin-top: 21px;
+      margin-left: 15px;
+    
+    }
+    .navbar-nav{
+      margin-top: 21px;
+      
     }
   </style>
 
@@ -76,10 +77,10 @@
 </head>
 <br><br><br>
 <!------ signup page for doctor by admin ---------->
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" >
   {% csrf_token %}
-  <div class="container register-form">
-    <div class="form">
+  <div class="container register-form" >
+    <div class="form" >
       <div class="note">
         <p>Admit Patient To Hospital</p>
       </div>

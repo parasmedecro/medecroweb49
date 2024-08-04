@@ -234,10 +234,15 @@ right: 240px;
       
       margin-top: 8.5px;
       margin-left: 5px ;
-      font-weight: 600;
-    
+      font-weight: 800;
+      
     }
-    
+    .logout{
+      background-color: #e05353;
+      color: rgb(255, 244, 244);
+      border-radius: 15px; 
+      font-size: 25px;
+    }
   </style>
 
 </head>
@@ -267,7 +272,7 @@ right: 240px;
     <!-- nav start -->
     <div class="bs-example">
       <nav  class="navbar navbar-expand-md  navbar-dark fixed-top"  >
-        <a href="/admin-dashboard" class="navbar-brand" style="color: #252B61;">MedSafe</a>
+        <a href="/admin-dashboard" class="navbar-brand" style="color: #252B61;" >MedSafe</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -276,7 +281,7 @@ right: 240px;
 
             <form method="post" action="logout/">
               {% csrf_token %}
-              <button type="submit">logout</button>
+              <button type="submit"  class="logout">logout</button>
           </form>
           </div>
         </div>

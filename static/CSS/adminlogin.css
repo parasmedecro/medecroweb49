@@ -6,7 +6,7 @@
 }
 
 body {
-  background: #f6f5f7;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -234,133 +234,7 @@ input {
   width: 40px;
       box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.1), 0px 6px 10px 0px rgba(0,0,0,0.1), 0px 1px 18px 0px rgba(0,0,0,0.1);
 }
-.square-one {
-  position:absolute;
-      background: #205cbf;
-  width: 30px;
-  height: 30px;
-  top: 15%;
-  left: 20%;
-  -webkit-transform: rotate(-65deg);
-  transform: rotate(-65deg);
-}
 
-.square-two {
-  position:absolute;
-  width: 25px;
-  height: 25px;
-  top: 55%;
-  right: 1%;
-  -webkit-transform: rotate(-65deg);
-  transform: rotate(-65deg);
-  background-color: #6FB1FC;
-}
-.square-three {
-  position:absolute;
-  width: 50px;
-  height: 50px;
-  top: 30%;
-  left: 45%;
-  -webkit-transform: rotate(-65deg);
-  transform: rotate(-65deg);
-  background-color: #0052D4;
-}
-
-.circle-one {
-  position:absolute;
-  width: 250px;
-  height: 250px;
-  border-radius: 100%;
-  bottom: -125px;
-  left: -125px;
-  background-color: #4364F7;
-}
-
-.circle-two {
-  position:absolute;
-  width: 30px;
-  height: 30px;
-  bottom: 20%;
-  right: 25%;
-  border-radius: 100%;
-   background: #205cbf;
-}
-
-.triangle-one {
-  position:absolute;
-  width: 0;
-  height: 0;
-  border-top: 69px solid transparent;
-  border-bottom: 48px solid transparent;
-  border-left: 90px solid rgba(255, 255, 255, 0.08);
-  top: 45%;
-  left: 30%;
-  background-color: transparent;
-  -webkit-transform: rotate(-100deg);
-  transform: rotate(-100deg);
-   background-color: #4364F7;
-}
-.triangle-two {
-  position:absolute;
-  width: 0;
-  height: 0;
-  border-top: 200px solid transparent;
-  border-bottom: 130px solid transparent;
-  border-left: 180px solid rgba(255, 255, 255, 0.1);
-  top: -150px;
-  right: 90px;
-  background-color: transparent;
-  -webkit-transform: rotate(-80deg);
-  transform: rotate(-80deg);
-  background-color: #0052D4;
-}
-
-.triangle-three {
-  position:absolute;
-  width: 0;
-  height: 0;
-  border-top: 68px solid transparent;
-  border-bottom: 49px solid transparent;
-  border-left: 90px solid rgba(255, 255, 255, 0.08);
-  right: 10%;
-  bottom: 1%;
-  background-color: transparent;
-  transform: rotate(-170deg);
-   background: #205cbf;
-}
-.triangle-three1 {
-  position:absolute;
-  width: 0;
-  height: 0;
-  border-top: 68px solid transparent;
-  border-bottom: 49px solid transparent;
-  border-left: 90px solid rgba(255, 255, 255, 0.08);
-  left: 3%;
-  top: 5%;
-  background-color: transparent;
-  transform: rotate(-170deg);
-   background: #205cbf;
-}
-.rectangle-one {
-  position:absolute;
-  width: 25px;
-  height: 50px;
-  top: 80%;
-  left: 25%;
-  -webkit-transform: rotate(-55deg);
-  transform: rotate(-55deg);
-  background-color: #0052D4;
-}
-.rectangle-two {
-  position:absolute;
-  width: 15px;
-  height: 30px;
-  top: 42%;
-  right: 23%;
-  -webkit-transform: rotate(-55deg);
-  transform: rotate(-55deg);
-    background-color: #4364F7;
-}
 #adminimg{
     height: 50%;
     width: 60%;
