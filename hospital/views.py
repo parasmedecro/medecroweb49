@@ -898,11 +898,76 @@ def contactus_view(request):
     return render(request, 'hospital/contactus.html', {'form':sub})
 
 
-#---------------------------------------------------------------------------------
-#------------------------ ADMIN RELATED VIEWS END ------------------------------
-#---------------------------------------------------------------------------------
 def patient_medtube(request):
     return render(request,'hospital/patient_medtube.html')
 
+def manage_medtube(request):
+    return render(request,'hospital/manage.html')
+
+def upload_medtube(request):
+    return render(request,'hospital/upload.html')
 
 
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_patient_report(request):
+    patients=models.Patient.objects.all().filter(status=True)
+    return render(request,'hospital/admin_patient_report.html',{'patients':patients})
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_discharge_patient_view(request):
+    patients=models.Patient.objects.all().filter(status=True)
+    return render(request,'hospital/admin_discharge_patient.html',{'patients':patients})
+
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def patient_report(request,pk):
+    patient=models.Patient.objects.get(id=pk)
+    assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
+   
+    patientDict={
+        'patientId':pk,
+        'name':patient.get_name,
+        'mobile':patient.mobile,
+        'address':patient.address,
+        'symptoms':patient.symptoms,
+        'admitDate':patient.admitDate,
+        'assignedDoctorName':assignedDoctor[0].first_name,
+    }
+    if request.method == 'POST':
+        feeDict ={
+            'Blood Group':request.POST['Blood Group'],
+            'Post Prandial Blood Sugar':request.POST['Post Prandial Blood Sugar'],
+            'Fasting Blood Report' : request.POST['Fasting Blood Report'],
+            'Cholestrol':request.POST['Cholestrol'],
+            'LDL Cholestrol':request.POST['LDL Cholestrol'],
+            'HDL Cholestrol':request.POST['HDL Cholestrol'],
+            'Vitamin D3':request.POST['Vitamin D3'],
+            'Alergies':request.POST['Alergies'],  
+            'Other Reports' : request.POST[' Otherreports'],
+        }
+        patientDict.update(feeDict)
+        #for updating to database PatientDischargeDetail (pDD)
+        pDD=models.PatientDischargeDetail()
+        pDD.patientId=pk
+        pDD.patientName=patient.get_name
+        pDD.assignedDoctorName=assignedDoctor[0].first_name
+        pDD.address=patient.address
+        pDD.mobile=patient.mobile
+        pDD.symptoms=patient.symptoms
+        pDD.admitDate=patient.admitDate
+        pDD.BloodGroup=int(request.POST['Blood Group'])
+        pDD.PostPrandialBloodSugar=int(request.POST['Post Prandial Blood Sugar'])
+        pDD.FastingBloodReport=int(request.POST['Fasting Blood Report'])
+        pDD.Cholestrol=int(request.POST['Cholestrol'])
+        pDD.LDLCholestrol=int(request.POST['LDL Cholestrol'])   
+        pDD.HDLCholestrol=int(request.POST['HDL Cholestrol']) 
+        pDD.VitaminD3=int(request.POST['Vitamin D3'])  
+        pDD.Alergies=int(request.POST['Alergies'])       
+        pDD.OtherReports=int(request.POST['Other Reports'])  
+        pDD.save()
+        return render(request,'hospital/patient_report_view.html',context=patientDict)
+    return render(request,'hospital/patient_report.html',context=patientDict)

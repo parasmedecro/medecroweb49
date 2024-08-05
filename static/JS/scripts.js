@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('videoDescription').value = '';
 
             // Redirect to home page
-            window.location.href = 'index.html';
+            window.location.href = 'doctor_dashboard.html';
         };
         
         reader.readAsDataURL(file);
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize pages
-    if (window.location.pathname.endsWith('index.html')) {
+    if (window.location.pathname.endsWith('patient_medtube.html')) {
         displayVideos();
     }
 
