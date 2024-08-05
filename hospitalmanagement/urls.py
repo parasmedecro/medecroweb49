@@ -81,6 +81,7 @@ urlpatterns = [
     path('avail-doctor/<int:pk>',views.avail_doctor,name='avail-doctor'),
     path('unavail-doctor/<int:pk>',views.unavail_doctor,name='unavail-doctor'),
     path('manage',views.manage_medtube,name='manage_medtube'),
+    path('report-pdf/<int:pk>', views.report_pdf_view,name='report-pdf'),
 ]
 
 

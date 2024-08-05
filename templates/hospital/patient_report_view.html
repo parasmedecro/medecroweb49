@@ -1,9 +1,7 @@
-{% extends 'hospital/admin_base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'hospital/admin_base.html' %} {% load static %} {% block content %}
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>A simple, clean, and responsive HTML invoice template</title>
 
   <style>
@@ -12,10 +10,10 @@
       margin: auto;
       padding: 30px;
       border: 1px solid #eee;
-      box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
       font-size: 16px;
       line-height: 24px;
-      font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+      font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
       color: #555;
     }
 
@@ -88,7 +86,8 @@
     /** RTL **/
     .rtl {
       direction: rtl;
-      font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+      font-family: Tahoma, "Helvetica Neue", "Helvetica", Helvetica, Arial,
+        sans-serif;
     }
 
     .rtl table {
@@ -110,7 +109,7 @@
   </style>
 </head>
 
-<br><br><br>
+<br /><br /><br />
 <div class="invoice-box">
   <table cellpadding="0" cellspacing="0">
     <tr class="top">
@@ -121,11 +120,7 @@
               <h1>Patient Report</h1>
             </td>
 
-            <td>
-
-              Admit Date: {{admitDate}}<br>
-              
-            </td>
+            <td>Admit Date: {{admitDate}}<br /></td>
           </tr>
         </table>
       </td>
@@ -136,138 +131,86 @@
         <table>
           <tr>
             <td>
-              Patient Name : {{name}}<br>
-              Patient Mobile : {{mobile}}<br>
-              Patient Addres : {{address}}<br>
+              Patient Name : {{name}}<br />
+              Patient Mobile : {{mobile}}<br />
+              Patient Addres : {{address}}<br />
             </td>
 
-            <td>
-              Doctor Name :
-              {{assignedDoctorName}}<br>
-
-            </td>
+            <td>Doctor Name : {{assignedDoctorName}}<br /></td>
           </tr>
         </table>
       </td>
     </tr>
 
     <tr class="heading">
-      <td>
-        Disease and Symptoms
-      </td>
-      <td>
-
-      </td>
-
+      <td>Disease and Symptoms</td>
+      <td></td>
     </tr>
 
     <tr class="details">
-      <td>
-        {{symptoms}}
-      </td>
+      <td>{{symptoms}}</td>
     </tr>
     <tr class="heading">
-      <td>
-       Tests
-      </td>
+      <td>Tests</td>
 
-      <td>
-        Reports
-      </td>
+      <td>Reports</td>
     </tr>
 
     <tr class="item">
-      <td>
-        Blood Group
-      </td>
+      <td>Blood Group</td>
 
-      <td>
-        {{Blood Group}}
-      </td>
+      <td>{{bloodgroup}}</td>
     </tr>
 
     <tr class="item">
-      <td>
-        Post Prandial Blood Sugar
-      </td>
+      <td>Post Prandial Blood Sugar</td>
 
-      <td>
-        {{Post Prandial Blood Sugar}}
-      </td>
+      <td>{{postprandialbloodsugar}}</td>
     </tr>
 
     <tr class="item">
-      <td>
-        Fasting Blood Report
-      </td>
+      <td>Fasting Blood Report</td>
 
-      <td>
-        {{ Fasting Blood Report}}
-      </td>
+      <td>{{fastingbloodreport}}</td>
     </tr>
     <tr class="item">
-      <td>
-        Cholestrol
-      </td>
+      <td>Cholestrol</td>
 
-      <td>
-        {{ Cholestrol}}
-      </td>
+      <td>{{cholestrol}}</td>
     </tr>
     <tr class="item">
-      <td>
-        LDL Cholestrol
-      </td>
+      <td>LDL Cholestrol</td>
 
-      <td>
-        {{ LDL Cholestrol}}
-      </td>
+      <td>{{LDLCholestrol}}</td>
     </tr>
     <tr class="item">
-      <td>
-        HDL Cholestrol
-      </td>
+      <td>HDL Cholestrol</td>
 
-      <td>
-        {{ HDL Cholestrol}}
-      </td>
+      <td>{{HDLCholestrol}}</td>
     </tr>
     <tr class="item">
-      <td>
-        Vitamin D3
-      </td>
+      <td>Vitamin D3</td>
 
-      <td>
-        {{ Vitamin D3}}
-      </td>
+      <td>{{vitaminD3}}</td>
     </tr>
     <tr class="item">
-      <td>
-        Alergies
-      </td>
+      <td>Alergies</td>
 
-      <td>
-        {{ Alergies}}
-      </td>
+      <td>{{alergies}}</td>
     </tr>
 
     <tr class="item last">
-      <td>
-        {{Other Reports}}
-      </td>
-
-      <td>
-        {{Otherreports}}
-      </td>
+      <td>{{otherreports}}</td>
     </tr>
-
-    
   </table>
 </div>
-<br><br>
+<br /><br />
 <div class="download">
-  <a style="background:red; width:500px;" href="{% url 'download-pdf' patientId  %}">Download</a>
+  <a
+    style="background: red; width: 500px"
+    href="{% url 'report-pdf' patientId  %}"
+    >Download</a
+  >
 </div>
-
 
 {% endblock content %}

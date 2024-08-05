@@ -1,9 +1,7 @@
-{% extends 'hospital/admin_base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'hospital/admin_base.html' %} {% load static %} {% block content %}
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>A simple, clean, and responsive HTML invoice template</title>
 
   <style>
@@ -12,10 +10,10 @@
       margin: auto;
       padding: 30px;
       border: 1px solid #eee;
-      box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
       font-size: 16px;
       line-height: 24px;
-      font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+      font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
       color: #555;
     }
 
@@ -88,7 +86,8 @@
     /** RTL **/
     .rtl {
       direction: rtl;
-      font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+      font-family: Tahoma, "Helvetica Neue", "Helvetica", Helvetica, Arial,
+        sans-serif;
     }
 
     .rtl table {
@@ -102,29 +101,26 @@
     .menu {
       top: 120px;
     }
-    .bs-example{
+    .bs-example {
       width: 98.5%;
       height: 80px;
-background-color: #E1E1E1;
-border-radius: 20px;
-margin: 15px;
-position: fixed;
-left: 0px;
+      background-color: #e1e1e1;
+      border-radius: 20px;
+      margin: 15px;
+      position: fixed;
+      left: 0px;
     }
-    .navbar-brand{
-      
+    .navbar-brand {
       margin-top: 21px;
       margin-left: 15px;
-    
     }
-    .navbar-nav{
+    .navbar-nav {
       margin-top: 21px;
-      
     }
   </style>
 </head>
 
-<br><br><br>
+<br /><br /><br />
 <div class="invoice-box">
   <table cellpadding="0" cellspacing="0">
     <tr class="top">
@@ -135,10 +131,7 @@ left: 0px;
               <h1>Patient Report</h1>
             </td>
 
-            <td>
-
-              Admit Date: {{admitDate}}<br>
-            </td>
+            <td>Admit Date: {{admitDate}}<br /></td>
           </tr>
         </table>
       </td>
@@ -149,126 +142,106 @@ left: 0px;
         <table>
           <tr>
             <td>
-              Patient Name : {{name}}<br>
-              Patient Mobile : {{mobile}}<br>
-              Patient Addres : {{address}}<br>
+              Patient Name : {{name}}<br />
+              Patient Mobile : {{mobile}}<br />
+              Patient Addres : {{address}}<br />
             </td>
 
-            <td>
-              Doctor Name :
-              {{assignedDoctorName}}<br>
-
-            </td>
+            <td>Doctor Name : {{assignedDoctorName}}<br /></td>
           </tr>
         </table>
       </td>
     </tr>
 
-    
-    
-
-      <td>
-        <h3>Reports</h3>
-      </td>
-    </tr>
+    <td>
+      <h3>Reports</h3>
+    </td>
     <form method="post">
       {% csrf_token %}
 
       <tr class="item">
-        <td>
-          Blood Group
-        </td>
+        <td>Blood Group</td>
 
         <td>
-          <input type="text" name="Blood Group" placeholder="" value="">
+          <input type="text" name="bloodgroup" placeholder="" value="" />
         </td>
       </tr>
 
       <tr class="item">
+        <td>Post Prandial Blood Sugar</td>
+
         <td>
-          Post Prandial Blood Sugar
-        </td>
-      
-        <td>
-          <input type="text" name="Post Prandial Blood Sugar" placeholder="" value="">
+          <input
+            type="text"
+            name="postprandialbloodsugar"
+            placeholder=""
+            value=""
+          />
         </td>
       </tr>
 
       <tr class="item">
-        <td>
-          Fasting Blood Report
-        </td>
+        <td>Fasting Blood Report</td>
 
         <td>
-          <input type="text" name="Fasting Blood Report" placeholder="" value="">
+          <input
+            type="text"
+            name="fastingbloodreport"
+            placeholder=""
+            value=""
+          />
         </td>
       </tr>
 
       <tr class="item">
-        <td>
-          Cholestrol
-        </td>
+        <td>Cholestrol</td>
 
         <td>
-          <input type="text" name="Cholestrol" placeholder="" value="">
-        </td>
-      </tr><tr class="item">
-        <td>
-          LDL Cholestrol
-        </td>
-
-        <td>
-          <input type="text" name="LDL Cholestrol" placeholder="" value="">
-        </td>
-      </tr><tr class="item">
-        <td>
-          HDL Cholestrol
-        </td>
-
-        <td>
-          <input type="text" name="HDL Cholestrol" placeholder="" value="">
+          <input type="text" name="cholestrol" placeholder="" value="" />
         </td>
       </tr>
       <tr class="item">
-        <td>
-          Vitamin D3
-        </td>
+        <td>LDL Cholestrol</td>
 
         <td>
-          <input type="text" name="Vitamin D3" placeholder="" value="">
+          <input type="text" name="LDLCholestrol" placeholder="" value="" />
+        </td>
+      </tr>
+      <tr class="item">
+        <td>HDL Cholestrol</td>
+
+        <td>
+          <input type="text" name="HDLCholestrol" placeholder="" value="" />
+        </td>
+      </tr>
+      <tr class="item">
+        <td>Vitamin D3</td>
+
+        <td>
+          <input type="text" name="vitaminD3" placeholder="" value="" />
         </td>
       </tr>
 
       <tr class="item">
-        <td>
-          Alergies
-        </td>
+        <td>Alergies</td>
 
         <td>
-          <input type="text" name="Alergies" placeholder="" value="">
+          <input type="text" name="alergies" placeholder="" value="" />
         </td>
       </tr>
-
 
       <tr class="item last">
         <td>
           Other Reports
-          <input type="text" name="Other Reports" placeholder="" value="">
+          <input type="text" name="otherreports" placeholder="" value="" />
         </td>
 
         <td>
-          <input type="text" name="Otherreports" placeholder="" value="">
+          <input type="submit" name="submit" value="Generate Bill" />
         </td>
       </tr>
-
-      <td>
-        <input type="submit" name="submit" value="Generate Bill">
-      </td>
-    </tr>
-
     </form>
   </table>
 </div>
-
 
 {% endblock content %}

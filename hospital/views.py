@@ -935,23 +935,24 @@ def patient_report(request,pk):
         'address':patient.address,
         'symptoms':patient.symptoms,
         'admitDate':patient.admitDate,
+        'todayDate':date.today(),
         'assignedDoctorName':assignedDoctor[0].first_name,
     }
     if request.method == 'POST':
-        feeDict ={
-            'Blood Group':request.POST['Blood Group'],
-            'Post Prandial Blood Sugar':request.POST['Post Prandial Blood Sugar'],
-            'Fasting Blood Report' : request.POST['Fasting Blood Report'],
-            'Cholestrol':request.POST['Cholestrol'],
-            'LDL Cholestrol':request.POST['LDL Cholestrol'],
-            'HDL Cholestrol':request.POST['HDL Cholestrol'],
-            'Vitamin D3':request.POST['Vitamin D3'],
-            'Alergies':request.POST['Alergies'],  
-            'Other Reports' : request.POST[' Otherreports'],
+        ReportDic ={
+            'bloodgroup':request.POST['bloodgroup'],
+            'postprandialbloodsugar':request.POST['postprandialbloodsugar'],
+            'fastingbloodreport' : request.POST['fastingbloodreport'],
+            'cholestrol':request.POST['cholestrol'],
+            'LDLCholestrol':request.POST['LDLCholestrol'],
+            'HDLCholestrol':request.POST['HDLCholestrol'],
+            'vitaminD3':request.POST['vitaminD3'],
+            'alergies':request.POST['alergies'],  
+            'otherreports' : request.POST['otherreports'],
         }
-        patientDict.update(feeDict)
+        patientDict.update(ReportDic)
         #for updating to database PatientDischargeDetail (pDD)
-        pDD=models.PatientDischargeDetail()
+        pDD=models.PatientReport()
         pDD.patientId=pk
         pDD.patientName=patient.get_name
         pDD.assignedDoctorName=assignedDoctor[0].first_name
@@ -959,15 +960,41 @@ def patient_report(request,pk):
         pDD.mobile=patient.mobile
         pDD.symptoms=patient.symptoms
         pDD.admitDate=patient.admitDate
-        pDD.BloodGroup=int(request.POST['Blood Group'])
-        pDD.PostPrandialBloodSugar=int(request.POST['Post Prandial Blood Sugar'])
-        pDD.FastingBloodReport=int(request.POST['Fasting Blood Report'])
-        pDD.Cholestrol=int(request.POST['Cholestrol'])
-        pDD.LDLCholestrol=int(request.POST['LDL Cholestrol'])   
-        pDD.HDLCholestrol=int(request.POST['HDL Cholestrol']) 
-        pDD.VitaminD3=int(request.POST['Vitamin D3'])  
-        pDD.Alergies=int(request.POST['Alergies'])       
-        pDD.OtherReports=int(request.POST['Other Reports'])  
+        pDD.todayDate=date.today()
+        pDD.BloodGroup=request.POST['bloodgroup']
+        pDD.PostPrandialBloodSugar=request.POST['postprandialbloodsugar']
+        pDD.FastingBloodReport=request.POST['fastingbloodreport']
+        pDD.Cholestrol=request.POST['cholestrol']
+        pDD.LDLCholestrol=request.POST['LDLCholestrol']
+        pDD.HDLCholestrol=request.POST['HDLCholestrol'] 
+        pDD.VitaminD3=request.POST['vitaminD3']
+        pDD.Alergies=request.POST['alergies']     
+        pDD.OtherReports=request.POST['otherreports']
         pDD.save()
         return render(request,'hospital/patient_report_view.html',context=patientDict)
     return render(request,'hospital/patient_report.html',context=patientDict)
+
+
+
+
+def report_pdf_view(request,pk):
+    reportDetails=models.PatientReport.objects.all().filter(patientId=pk).order_by('-id')[:1]
+    dict={
+        'patientName':reportDetails[0].patientName,
+        'assignedDoctorName':reportDetails[0].assignedDoctorName,
+        'address':reportDetails[0].address,
+        'mobile':reportDetails[0].mobile,
+        'symptoms':reportDetails[0].symptoms,
+        'admitDate':reportDetails[0].admitDate,
+        'todayDate':reportDetails[0].todayDate,
+        'bloodgroup':reportDetails[0].BloodGroup,
+        'postprandialbloodsugar':reportDetails[0].PostPrandialBloodSugar,
+        'fastingbloodreport':reportDetails[0].FastingBloodReport,
+        'cholestrol':reportDetails[0].Cholestrol,
+        'LDLCholestrol':reportDetails[0].LDLCholestrol,
+        'HDLCholestrol':reportDetails[0].HDLCholestrol,
+        'vitaminD3':reportDetails[0].VitaminD3,
+        'alergies':reportDetails[0].Alergies,
+        'otherreports':reportDetails[0].OtherReports,
+    }
+    return render_to_pdf('hospital/report.html',dict)

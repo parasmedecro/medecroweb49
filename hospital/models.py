@@ -78,6 +78,23 @@ class PatientDischargeDetail(models.Model):
     total=models.PositiveIntegerField(null=False)
 
 
-#Developed By : sumit kumar
-#facebook : fb.com/sumit.luv
-#Youtube :youtube.com/lazycoders
+class PatientReport(models.Model):
+    patientId=models.PositiveIntegerField(null=True)
+    patientName=models.CharField(max_length=40)
+    assignedDoctorName=models.CharField(max_length=40)
+    address = models.CharField(max_length=40)
+    mobile = models.CharField(max_length=20,null=True)
+    symptoms = models.CharField(max_length=100,null=True)
+
+    admitDate=models.DateField(null=False)
+    todayDate=models.DateField(null=False)
+
+    BloodGroup=models.CharField(max_length=10)
+    PostPrandialBloodSugar=models.CharField(max_length=20)
+    FastingBloodReport=models.CharField(max_length=20)
+    Cholestrol=models.CharField(max_length=20)
+    LDLCholestrol=models.CharField(max_length=20)
+    HDLCholestrol=models.CharField(max_length=20)
+    VitaminD3=models.CharField(max_length=20)
+    Alergies=models.CharField(max_length=20)
+    OtherReports=models.CharField(max_length=20)
