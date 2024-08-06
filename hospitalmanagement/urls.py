@@ -68,7 +68,7 @@ urlpatterns = [
     path('discharge-patient/<int:pk>', views.discharge_patient_view,name='discharge-patient'),
     path('download-pdf/<int:pk>', views.download_pdf_view,name='download-pdf'),
     path('admin-patient-report-view', views.admin_patient_report_view,name='admin-patient-report'),
-    path('admin_patient-report/<int:pk>', views.admin_patient_report,name='patient-report'),
+    path('admin-patient-report/<int:pk>', views.admin_patient_report_generate,name='admin-patient-report'),
 
 
     path('admin-appointment', views.admin_appointment_view,name='admin-appointment'),
@@ -82,7 +82,6 @@ urlpatterns = [
     path('unavail-doctor/<int:pk>',views.unavail_doctor,name='unavail-doctor'),
     path('manage',views.manage_medtube,name='manage_medtube'),
     path('report-pdf/<int:pk>', views.report_pdf_view,name='report-pdf'),
-    path('admin-patient-report/<int:pk>', views.admin_patient_report,name='admin-patient-report'),
 ]
 
 
@@ -116,7 +115,12 @@ urlpatterns +=[
     path('searchdoctor', views.search_doctor_view,name='searchdoctor'),
     path('patient-discharge', views.patient_discharge_view,name='patient-discharge'),
     path('patient_medtube', views.patient_medtube,name='patient_medtube'),
-    path('patient-graph', views.patient_graph,name='patient-graph'),
+    path('patient-report-view', views.patient_report_view,name='patient-report-view'),
+    path('patient-reports', views.patient_reports,name='patient-reports'),
+
+
+    path('chat_bot', views.chat_gemini, name='chat_gemini'),
+
 ]
 
 #Developed By : sumit kumar

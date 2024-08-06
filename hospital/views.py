@@ -905,7 +905,15 @@ def patient_report_view(request):
             'patient':patient,
             'patientId':request.user.id,
         }
-    return render(request,'hospital/patient_discharge.html',context=patientDict)
+    return render(request,'hospital/patient_report_view.html',context=patientDict)
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_reports(request):
+    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+    reports=models.PatientReport.objects.all().filter(patientName=patient.get_name)
+    return render(request,'hospital/patient_view_reports.html',{'reports':reports,'patient':patient})
 
 
 #------------------------ PATIENT RELATED VIEWS END ------------------------------
@@ -957,7 +965,7 @@ def admin_patient_report_view(request):
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
-def admin_patient_report(request,pk):
+def admin_patient_report_generate(request,pk):
     patient=models.Patient.objects.get(id=pk)
     assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
    
@@ -1004,8 +1012,8 @@ def admin_patient_report(request,pk):
         pDD.Alergies=request.POST['alergies']     
         pDD.OtherReports=request.POST['otherreports']
         pDD.save()
-        return render(request,'hospital/admin_patient_report_view.html',context=patientDict)
-    return render(request,'hospital/admin_patient_report.html',context=patientDict)
+        return render(request,'hospital/admin_patient_report_generate_view.html',context=patientDict)
+    return render(request,'hospital/admin_patient_report_generate.html',context=patientDict)
 
 
 
@@ -1032,6 +1040,45 @@ def report_pdf_view(request,pk):
     }
     return render_to_pdf('hospital/report.html',dict)
 
+# chatbot/views.py
+import os
+from django.shortcuts import render
+import google.generativeai as genai
+from dotenv import load_dotenv
+import os
+import google.generativeai as genai
 
-def patient_graph(request):
-    return render(request,'graph.html')
+# Load environment variables from .env file
+load_dotenv()
+
+# Configure Google Gemini API
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+
+generation_config = {
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 64,
+    "max_output_tokens": 8192,
+    "response_mime_type": "text/plain",
+}
+def chat_gemini(request):
+    response_text = ""
+    if request.method == "POST":
+        user_input = request.POST.get("user_input", "")
+        model = genai.GenerativeModel(
+            model_name="gemini-1.5-pro",
+            generation_config=generation_config,
+        )
+
+        chat_session = model.start_chat(
+            history=[]
+        )
+        context = f"You are a medical doctor who gives remedies {user_input}"
+        response = chat_session.send_message(context)
+        response_text = response.text
+
+    context = {
+        'response': response_text,
+    }
+    
+    return render(request, 'chat_bot.html', context)
