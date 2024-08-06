@@ -1100,3 +1100,8 @@ def patient_graph(request):
 def one_on_onechat(request):
     patient=models.Patient.objects.get(user_id=request.user.id) 
     return render(request,'hospital/1-1_chat.html',{'patient':patient})
+
+def one_on_onechat_doctor(request):
+    doctor=models.Doctor.objects.get(user_id=request.user.id)
+    return render(request,'hospital/1-1_chat_doctor.html',{'doctor':doctor})
+

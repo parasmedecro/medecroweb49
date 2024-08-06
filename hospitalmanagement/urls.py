@@ -91,6 +91,7 @@ urlpatterns +=[
     path('doctor-view-appointment', views.doctor_view_appointment_view,name='doctor-view-appointment'),
     path('doctor-delete-appointment',views.doctor_delete_appointment_view,name='doctor-delete-appointment'),
     path('delete-appointment/<int:pk>', views.delete_appointment_view,name='delete-appointment'),
+    path('1-1_chat_doctor', views.one_on_onechat_doctor,name='1-1_chat_doctor'),
      path('upload', views.upload_medtube,name='manage'),
 ]
 
