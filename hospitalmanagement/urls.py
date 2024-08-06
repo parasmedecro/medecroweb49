@@ -116,6 +116,7 @@ urlpatterns +=[
     path('searchdoctor', views.search_doctor_view,name='searchdoctor'),
     path('patient-discharge', views.patient_discharge_view,name='patient-discharge'),
     path('patient_medtube', views.patient_medtube,name='patient_medtube'),
+    path('patient-graph', views.patient_graph,name='patient-graph'),
 ]
 
 #Developed By : sumit kumar

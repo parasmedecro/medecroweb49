@@ -1031,3 +1031,7 @@ def report_pdf_view(request,pk):
         'otherreports':reportDetails[0].OtherReports,
     }
     return render_to_pdf('hospital/report.html',dict)
+
+
+def patient_graph(request):
+    return render(request,'graph.html')
