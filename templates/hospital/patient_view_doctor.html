@@ -48,9 +48,9 @@
         {% for d in doctors %}
         <tr>
           {% if d.availability == True %}
-            <td><p><font color="green">{{d.get_name}}</font></p></td>
+            <td><p><span style="font-weight:bold"><font color="green">{{d.get_name}}</font></span></p></td>
           {% elif d.availability == False %}
-            <td><p><font color="red">{{d.get_name}}</font></p></td>
+          <td><p><span style="font-weight:bold"><font color="red">{{d.get_name}}</font></span></p></td>
           {% endif %}
           <td>{{d.mobile}}</td>
           <td>{{d.address}}</td>
