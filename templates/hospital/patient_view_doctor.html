@@ -19,10 +19,35 @@
     .row {
       margin: 100px;
     }
+    .box{
+      height: 30px;
+      width: 45px;
+      background-color: green;
+      border: 1px solid black;
+      border-radius: 10px;
+    }
+    .box1{
+      height: 30px;
+      width: 45px;
+      background-color: red;
+      border: 1px solid black;
+      border-radius: 10px;
+    }
+    .available{
+      width: 300px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 20px;
+      
+    }
   </style>
 </head>
 <div class="container">
-
+    <div class="available">
+      <div class="box">
+      </div>
+      Available <div class="box1"></div> Unavailable
+    </div>
     <form  action="/searchdoctor" method="get" style="margin-left:70%;" class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" name="query" id="query" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -48,11 +73,7 @@
         {% for d in doctors %}
         <tr>
           {% if d.availability == True %}
-<<<<<<< HEAD
-            <td><p style="background-color: green;">{{d.get_name}}</p></td>
-=======
             <td><p><span style="font-weight:bold"><font color="green">{{d.get_name}}</font></span></p></td>
->>>>>>> 1234e59797dc7b3a369dbd056ae9a2d2fbe87ac5
           {% elif d.availability == False %}
           <td><p><span style="font-weight:bold"><font color="red">{{d.get_name}}</font></span></p></td>
           {% endif %}
