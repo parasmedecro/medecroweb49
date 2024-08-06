@@ -905,7 +905,15 @@ def patient_report_view(request):
             'patient':patient,
             'patientId':request.user.id,
         }
-    return render(request,'hospital/patient_discharge.html',context=patientDict)
+    return render(request,'hospital/patient_report_view.html',context=patientDict)
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_reports(request):
+    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+    reports=models.PatientReport.objects.all().filter(patientName=patient.get_name)
+    return render(request,'hospital/patient_view_reports.html',{'reports':reports,'patient':patient})
 
 
 #------------------------ PATIENT RELATED VIEWS END ------------------------------
