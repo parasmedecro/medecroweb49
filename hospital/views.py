@@ -957,7 +957,7 @@ def admin_patient_report_view(request):
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
-def admin_patient_report(request,pk):
+def admin_patient_report_generate(request,pk):
     patient=models.Patient.objects.get(id=pk)
     assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
    
@@ -1004,8 +1004,8 @@ def admin_patient_report(request,pk):
         pDD.Alergies=request.POST['alergies']     
         pDD.OtherReports=request.POST['otherreports']
         pDD.save()
-        return render(request,'hospital/admin_patient_report_view.html',context=patientDict)
-    return render(request,'hospital/admin_patient_report.html',context=patientDict)
+        return render(request,'hospital/admin_patient_report_generate_view.html',context=patientDict)
+    return render(request,'hospital/admin_patient_report_generate.html',context=patientDict)
 
 
 

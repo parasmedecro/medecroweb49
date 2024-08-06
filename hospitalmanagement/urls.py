@@ -68,7 +68,7 @@ urlpatterns = [
     path('discharge-patient/<int:pk>', views.discharge_patient_view,name='discharge-patient'),
     path('download-pdf/<int:pk>', views.download_pdf_view,name='download-pdf'),
     path('admin-patient-report-view', views.admin_patient_report_view,name='admin-patient-report'),
-    path('admin_patient-report/<int:pk>', views.admin_patient_report,name='patient-report'),
+    path('admin-patient-report/<int:pk>', views.admin_patient_report_generate,name='admin-patient-report'),
 
 
     path('admin-appointment', views.admin_appointment_view,name='admin-appointment'),
@@ -82,7 +82,6 @@ urlpatterns = [
     path('unavail-doctor/<int:pk>',views.unavail_doctor,name='unavail-doctor'),
     path('manage',views.manage_medtube,name='manage_medtube'),
     path('report-pdf/<int:pk>', views.report_pdf_view,name='report-pdf'),
-    path('admin-patient-report/<int:pk>', views.admin_patient_report,name='admin-patient-report'),
 ]
 
 
