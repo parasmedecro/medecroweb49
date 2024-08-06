@@ -1082,3 +1082,8 @@ def chat_gemini(request):
     }
     
     return render(request, 'chat_bot.html', context)
+
+
+
+def patient_graph(request):
+    return render(request,'graph.html')
