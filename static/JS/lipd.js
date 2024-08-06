@@ -12,7 +12,7 @@ const riskColors = {
         return 'red'; // High risk
     },
     LDL: value => {
-        if (value < 100) return 'green'; // Optimal
+        if (value < 130) return 'green'; // Optimal
         if (value >= 130 && value <= 159) return 'yellow'; // Borderline
         return 'red'; // High risk
     },
@@ -36,7 +36,7 @@ const messages = {
         return 'High risk. Consult your doctor.';
     },
     LDL: value => {
-        if (value < 100) return 'Optimal LDL level.';
+        if (value < 130) return 'Optimal LDL level.';
         if (value >= 130 && value <= 159) return 'Borderline LDL level. Monitor your diet.';
         return 'High risk. Consult your doctor immediately.';
     },
