@@ -869,6 +869,45 @@ def patient_discharge_view(request):
     return render(request,'hospital/patient_discharge.html',context=patientDict)
 
 
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_report_view(request):
+    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+    reportDetails=models.PatientReport.objects.all().filter(patientId=patient.id).order_by('-id')[:1]
+    patientDict=None
+    if reportDetails:
+        patientDict ={
+        'is_discharged':True,
+        'patient':patient,
+        'patientId':patient.id,
+        'patientName':patient.get_name,
+        'assignedDoctorName':reportDetails[0].assignedDoctorName,
+        'address':patient.address,
+        'mobile':patient.mobile,
+        'symptoms':patient.symptoms,
+        'admitDate':patient.admitDate,
+        'todayDate':reportDetails[0].todayDate,
+        'bloodgroup':reportDetails[0].BloodGroup,
+        'postprandialbloodsugar':reportDetails[0].PostPrandialBloodSugar,
+        'fastingbloodreport':reportDetails[0].FastingBloodReport,
+        'cholestrol':reportDetails[0].Cholestrol,
+        'LDLCholestrol':reportDetails[0].LDLCholestrol,
+        'HDLCholestrol':reportDetails[0].HDLCholestrol,
+        'vitaminD3':reportDetails[0].VitaminD3,
+        'alergies':reportDetails[0].Alergies,
+        'otherreports':reportDetails[0].OtherReports,
+        }
+        print(patientDict)
+    else:
+        patientDict={
+            'is_discharged':False,
+            'patient':patient,
+            'patientId':request.user.id,
+        }
+    return render(request,'hospital/patient_discharge.html',context=patientDict)
+
+
 #------------------------ PATIENT RELATED VIEWS END ------------------------------
 #---------------------------------------------------------------------------------
 
@@ -910,21 +949,15 @@ def upload_medtube(request):
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
-def admin_patient_report(request):
+def admin_patient_report_view(request):
     patients=models.Patient.objects.all().filter(status=True)
-    return render(request,'hospital/admin_patient_report.html',{'patients':patients})
-
-@login_required(login_url='adminlogin')
-@user_passes_test(is_admin)
-def admin_discharge_patient_view(request):
-    patients=models.Patient.objects.all().filter(status=True)
-    return render(request,'hospital/admin_discharge_patient.html',{'patients':patients})
+    return render(request,'hospital/admin_patient_report_view.html',{'patients':patients})
 
 
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
-def patient_report(request,pk):
+def admin_patient_report(request,pk):
     patient=models.Patient.objects.get(id=pk)
     assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
    
@@ -971,8 +1004,8 @@ def patient_report(request,pk):
         pDD.Alergies=request.POST['alergies']     
         pDD.OtherReports=request.POST['otherreports']
         pDD.save()
-        return render(request,'hospital/patient_report_view.html',context=patientDict)
-    return render(request,'hospital/patient_report.html',context=patientDict)
+        return render(request,'hospital/admin_patient_report_view.html',context=patientDict)
+    return render(request,'hospital/admin_patient_report.html',context=patientDict)
 
 
 
