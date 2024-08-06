@@ -1061,7 +1061,11 @@ generation_config = {
     "max_output_tokens": 8192,
     "response_mime_type": "text/plain",
 }
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
 def chat_gemini(request):
+    patient=models.Patient.objects.get(user_id=request.user.id) 
     response_text = ""
     if request.method == "POST":
         user_input = request.POST.get("user_input", "")
@@ -1081,9 +1085,18 @@ def chat_gemini(request):
         'response': response_text,
     }
     
-    return render(request, 'chat_bot.html', context)
+    return render(request, 'chat_bot.html', context,{'patient':patient})
 
 
-
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
 def patient_graph(request):
-    return render(request,'graph.html')
+    patient=models.Patient.objects.get(user_id=request.user.id) 
+    return render(request,'graph.html',{'patient':patient})
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def one_on_onechat(request):
+    patient=models.Patient.objects.get(user_id=request.user.id) 
+    return render(request,'hospital/1-1_chat.html',{'patient':patient})
