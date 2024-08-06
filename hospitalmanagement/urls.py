@@ -117,11 +117,12 @@ urlpatterns +=[
     path('patient_medtube', views.patient_medtube,name='patient_medtube'),
     path('patient-report-view', views.patient_report_view,name='patient-report-view'),
     path('patient-reports', views.patient_reports,name='patient-reports'),
-
-
     path('chat_bot', views.chat_gemini, name='chat_gemini'),
+    path('patient-graph', views.patient_graph,name='patient-graph'),
 
 ]
+
+
 
 #Developed By : sumit kumar
 #facebook : fb.com/sumit.luv
