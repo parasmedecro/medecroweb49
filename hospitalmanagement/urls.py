@@ -79,8 +79,8 @@ urlpatterns = [
     path('avail-doctor/<int:pk>',views.avail_doctor,name='avail-doctor'),
     path('unavail-doctor/<int:pk>',views.unavail_doctor,name='unavail-doctor'),
     path('report-pdf/<int:pk>', views.report_pdf_view,name='report-pdf'),
-    path('admin-manage/', views.manage_videos, name='admin_manage_videos'),
-    path('admin-delete/<int:video_id>/', views.delete_video, name='admin_delete_video'),
+    path('admin-manage', views.manage_videos, name='admin-manage'),
+    path('admin-delete/<int:video_id>/', views.delete_video, name='admin-delete'),
 
 ]
 
@@ -99,7 +99,7 @@ urlpatterns +=[
     path('doctor-delete-appointment',views.doctor_delete_appointment_view,name='doctor-delete-appointment'),
     path('delete-appointment/<int:pk>', views.delete_appointment_view,name='delete-appointment'),
     path('1-1_chat_doctor', views.one_on_onechat_doctor,name='1-1_chat_doctor'),
-     path('doctor-upload/', views.upload_video, name='doctor_upload_video'),
+    path('doctor-upload', views.upload_video, name='doctor-upload'),
 ]
 
 
@@ -125,3 +125,4 @@ urlpatterns +=[
 
 ]
 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
