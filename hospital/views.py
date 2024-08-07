@@ -593,7 +593,7 @@ def admin_approve_appointment_view(request):
     appointments=models.Appointment.objects.all().filter(status=False)
     return render(request,'hospital/admin_approve_appointment.html',{'appointments':appointments})
 
-
+from twilio.rest import Client
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
@@ -601,6 +601,15 @@ def approve_appointment_view(request,pk):
     appointment=models.Appointment.objects.get(id=pk)
     appointment.status=True
     appointment.save()
+    #Notify Patient
+    client = Client(accountsid, auth_token)
+
+    message = client.messages.create(
+        to='+919137796495',
+        from_='+18577676358',
+        body='MEDSAFE\nHospital A:- Dear Nishant, Your Appointment For Doctor Has Been Approved!!',
+        )
+    print(message.sid)
     return redirect(reverse('admin-approve-appointment'))
 
 
@@ -610,6 +619,15 @@ def approve_appointment_view(request,pk):
 def reject_appointment_view(request,pk):
     appointment=models.Appointment.objects.get(id=pk)
     appointment.delete()
+    #Notify Patient
+    client = Client(accountsid, auth_token)
+
+    message = client.messages.create(
+        to='+919137796495',
+        from_='+18577676358',
+        body='MEDSAFE\nHospital A:- Dear Nishant, Your Appointment For Doctor Has Been Rejected!!',
+        )
+    print(message.sid)
     return redirect('admin-approve-appointment')
 #---------------------------------------------------------------------------------
 #------------------------ ADMIN RELATED VIEWS END ------------------------------
@@ -1085,7 +1103,7 @@ def chat_gemini(request):
         'response': response_text,
     }
     
-    return render(request, 'chat_bot.html', context,{'patient':patient})
+    return render(request, 'chat_bot.html', context,)
 
 
 @login_required(login_url='patientlogin')
