@@ -17,6 +17,7 @@ urlpatterns = [
 
     path('aboutus', views.aboutus_view),
     path('contactus', views.contactus_view),
+    path('publicgraph', views.publicgraph,name='publicgraph'),
 
 
     path('adminclick', views.adminclick_view),

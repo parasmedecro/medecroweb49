@@ -1145,3 +1145,7 @@ def delete_video(request, video_id):
     video = models.Video.objects.get(id=video_id)
     video.delete()
     return redirect('admin-manage')
+
+
+def publicgraph(request):
+      return render(request,'hospital/publicgraph.html')
