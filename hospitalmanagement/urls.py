@@ -100,6 +100,7 @@ urlpatterns +=[
     path('delete-appointment/<int:pk>', views.delete_appointment_view,name='delete-appointment'),
     path('1-1_chat_doctor', views.one_on_onechat_doctor,name='1-1_chat_doctor'),
     path('doctor-upload', views.upload_video, name='doctor-upload'),
+    path('doctor-chat-view', views.doctor_chat_view, name='doctor-chat-view'),
 ]
 
 
@@ -121,7 +122,7 @@ urlpatterns +=[
     path('chat_bot', views.chat_gemini, name='chat_gemini'),
     path('patient-graph', views.patient_graph,name='patient-graph'),
     path('1-1_chat', views.one_on_onechat,name='1-1_chat'),
-   
+    path('patient-chat-view', views.patient_chat_view, name='doctor-chat-view'),
 
 ]
 

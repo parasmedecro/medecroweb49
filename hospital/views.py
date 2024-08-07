@@ -1120,10 +1120,16 @@ def one_on_onechat(request):
     patient=models.Patient.objects.get(user_id=request.user.id) 
     return render(request,'hospital/1-1_chat.html',{'patient':patient})
 
-def one_on_onechat_doctor(request):
-    doctor=models.Doctor.objects.get(user_id=request.user.id)
-    return render(request,'hospital/1-1_chat_doctor.html',{'doctor':doctor})
 
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def one_on_onechat_doctor(request):
+    doctors=models.Doctor.objects.all().filter(status=True)
+    return render(request,'hospital/1-1_chat_doctor.html',{'doctors':doctors})
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
 def upload_video(request):
     if request.method == 'POST':
         form = forms.VideoForm(request.POST, request.FILES)
@@ -1134,6 +1140,9 @@ def upload_video(request):
         form =forms.VideoForm()
     return render(request, 'hospital/upload.html', {'form': form})
 
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
 def patient_medtube(request):
     videos = models.Video.objects.all()
     return render(request, 'hospital/patient_medtube.html', {'videos': videos})
@@ -1150,3 +1159,18 @@ def delete_video(request, video_id):
 
 def publicgraph(request):
       return render(request,'hospital/publicgraph.html')
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def doctor_chat_view(request):
+    patients=models.Patient.objects.all().filter(status=True)
+    return render(request,'hospital/doctor_chat_view.html',{'patients':patients})
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_chat_view(request):
+    doctors=models.Doctor.objects.all().filter(status=True)
+    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+    return render(request,'hospital/patient_chat_view.html',{'patient':patient,'doctors':doctors})
