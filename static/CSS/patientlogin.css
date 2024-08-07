@@ -256,3 +256,14 @@ input {
 height: 50%;
 width: 100%;
 }
+
+ul.messages li.error{                                                                                                                                                                     
+  border: 1px solid;
+  margin: 10px auto;
+  padding: 15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  max-width: 460px;
+  color: #D8000C;
+  background-color: #FFBABA;
+}

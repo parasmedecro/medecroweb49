@@ -123,6 +123,7 @@ urlpatterns +=[
     path('patient-graph', views.patient_graph,name='patient-graph'),
     path('1-1_chat', views.one_on_onechat,name='1-1_chat'),
     path('patient-chat-view', views.patient_chat_view, name='doctor-chat-view'),
+    path('report-searchdoctor', views.search_doctor_reports_view,name='report-searchdoctor'),
 
 ]
 

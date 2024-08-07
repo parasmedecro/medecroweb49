@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from datetime import datetime,timedelta,date
 from django.conf import settings
 from django.db.models import Q
+from django.contrib import messages
 
 
 # Create your views here.
@@ -61,8 +62,14 @@ def admin_signup_view(request):
             password= request.POST.get("password")
             if username in user_names:
                 user = authenticate(request,username=username,password=password)
-                login(request,user)
-                return redirect('afterlogin')
+                if user is not None:
+                    if user.is_active:
+                        login(request,user)
+                        return redirect('afterlogin')
+                else:
+                    messages.error(request, 'Invalid username or password. Please try again')
+            else:
+                messages.error(request, 'Invalid username or password. Please try again')
     return render(request,'admin_login.html',{'form':form})
 
 
@@ -93,8 +100,14 @@ def doctor_signup_view(request):
             password= request.POST.get("password")
             if username in user_names:
                 user = authenticate(request,username=username,password=password)
-                login(request,user)
-                return redirect('afterlogin')
+                if user is not None:
+                    if user.is_active:
+                        login(request,user)
+                        return redirect('afterlogin')
+                else:
+                    messages.error(request, 'Invalid username or password. Please try again')
+            else:
+                messages.error(request, 'Invalid username or password. Please try again')
     return render(request,'doctor_login.html',context=mydict)
 
 
@@ -125,8 +138,14 @@ def patient_signup_view(request):
             password= request.POST.get("password")
             if username in user_names:
                 user = authenticate(request,username=username,password=password)
-                login(request,user)
-                return redirect('afterlogin')
+                if user is not None:
+                    if user.is_active:
+                        login(request,user)
+                        return redirect('afterlogin')
+                else:
+                    messages.error(request, 'Invalid username or password. Please try again')
+            else:
+                messages.error(request, 'Invalid username or password. Please try again')
     return render(request,'patient_login.html',context=mydict)
 
 
@@ -580,6 +599,7 @@ def admin_add_appointment_view(request):
             appointment.patientId=request.POST.get('patientId')
             appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
             appointment.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
+            appointment.appointmentDate=request.POST.get('appointment')
             appointment.status=True
             appointment.save()
         return HttpResponseRedirect('admin-view-appointment')
@@ -1174,3 +1194,11 @@ def patient_chat_view(request):
     doctors=models.Doctor.objects.all().filter(status=True)
     patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
     return render(request,'hospital/patient_chat_view.html',{'patient':patient,'doctors':doctors})
+
+
+def search_doctor_reports_view(request):
+    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+    # whatever user write in search box we get in query
+    query = request.GET['query']
+    doctors=models.Doctor.objects.all().filter(status=True).filter(Q(department__icontains=query)| Q(user__first_name__icontains=query))
+    return render(request,'hospital/patient_view_reports.html',{'patient':patient,'doctors':doctors})
