@@ -98,3 +98,14 @@ class PatientReport(models.Model):
     VitaminD3=models.CharField(max_length=20)
     Alergies=models.CharField(max_length=20)
     OtherReports=models.CharField(max_length=20)
+
+
+
+class Video(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    file = models.FileField(upload_to='videos/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

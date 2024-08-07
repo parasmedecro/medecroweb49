@@ -70,3 +70,7 @@ class ContactusForm(forms.Form):
     Message = forms.CharField(max_length=500,widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}))
 
 
+class VideoForm(forms.ModelForm):
+    class Meta:
+        model = models.Video
+        fields = ['title', 'description', 'file']

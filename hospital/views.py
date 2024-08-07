@@ -1105,3 +1105,25 @@ def one_on_onechat_doctor(request):
     doctor=models.Doctor.objects.get(user_id=request.user.id)
     return render(request,'hospital/1-1_chat_doctor.html',{'doctor':doctor})
 
+def upload_video(request):
+    if request.method == 'POST':
+        form = forms.VideoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('doctor-dashboard')
+    else:
+        form =forms.VideoForm()
+    return render(request, 'hospital/upload.html', {'form': form})
+
+def patient_medtube(request):
+    videos = models.Video.objects.all()
+    return render(request, 'hospital/patient_medtube.html', {'videos': videos})
+
+def manage_videos(request):
+    videos = models.Video.objects.all()
+    return render(request, 'hospital/manage.html', {'videos': videos})
+
+def delete_video(request, video_id):
+    video = models.Video.objects.get(id=video_id)
+    video.delete()
+    return redirect('admin-manage')
