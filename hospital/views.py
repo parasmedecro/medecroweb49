@@ -1109,14 +1109,14 @@ def chat_gemini(request):
     if request.method == "POST":
         user_input = request.POST.get("user_input", "")
         model = genai.GenerativeModel(
-            model_name="gemini-1.5-pro",
+            model_name="gemini-1.0-pro-001",
             generation_config=generation_config,
         )
 
         chat_session = model.start_chat(
             history=[]
         )
-        context = f"You are a medical doctor who gives remedies {user_input}"
+        context = f"You are a medical doctor who gives remedies and dont recommend medicines {user_input}"
         response = chat_session.send_message(context)
         response_text = response.text
 
