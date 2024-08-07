@@ -1121,15 +1121,15 @@ def one_on_onechat(request):
     return render(request,'hospital/1-1_chat.html',{'patient':patient})
 
 
-@login_required(login_url='adminlogin')
-@user_passes_test(is_admin)
+@login_required(login_url='doctor')
+@user_passes_test(is_doctor)
 def one_on_onechat_doctor(request):
     doctors=models.Doctor.objects.all().filter(status=True)
     return render(request,'hospital/1-1_chat_doctor.html',{'doctors':doctors})
 
 
-@login_required(login_url='adminlogin')
-@user_passes_test(is_admin)
+@login_required(login_url='doctor')
+@user_passes_test(is_doctor)
 def upload_video(request):
     if request.method == 'POST':
         form = forms.VideoForm(request.POST, request.FILES)
@@ -1161,8 +1161,8 @@ def publicgraph(request):
       return render(request,'hospital/publicgraph.html')
 
 
-@login_required(login_url='adminlogin')
-@user_passes_test(is_admin)
+@login_required(login_url='doctor')
+@user_passes_test(is_doctor)
 def doctor_chat_view(request):
     patients=models.Patient.objects.all().filter(status=True)
     return render(request,'hospital/doctor_chat_view.html',{'patients':patients})
