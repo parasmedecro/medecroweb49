@@ -1103,8 +1103,8 @@ def chat_gemini(request):
     context = {
         'response': response_text,
     }
-    
-    return render(request, 'chat_bot.html', context,)
+    patient=models.Patient.objects.get(user_id=request.user.id)
+    return render(request, 'chat_bot.html', context)
 
 
 @login_required(login_url='patientlogin')
