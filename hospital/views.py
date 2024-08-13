@@ -11,7 +11,15 @@ from datetime import datetime,timedelta,date
 from django.conf import settings
 from django.db.models import Q
 from django.contrib import messages
+import os
+from django.shortcuts import render
+import google.generativeai as genai
+from dotenv import load_dotenv
+import os
+import google.generativeai as genai
 
+# Load environment variables from .env file
+load_dotenv()
 
 # Create your views here.
 def home_view(request):
@@ -623,12 +631,13 @@ def approve_appointment_view(request,pk):
     appointment.status=True
     appointment.save()
     #Notify Patient
-    client = Client(accountsid, auth_token)
+
+    client = Client('accountsid', 'auth_token')
 
     message = client.messages.create(
         to='+919137796495',
         from_='+18577676358',
-        body='MEDSAFE\nHospital A:- Dear Nishant, Your Appointment For Doctor Has Been Approved!!',
+        body='MEDSAFE\nHospital A:- Dear Yash, Your Appointment For Doctor Rajiv Has Been Approved!!',
         )
     print(message.sid)
     return redirect(reverse('admin-approve-appointment'))
@@ -641,12 +650,13 @@ def reject_appointment_view(request,pk):
     appointment=models.Appointment.objects.get(id=pk)
     appointment.delete()
     #Notify Patient
-    client = Client(accountsid, auth_token)
+
+    client = Client('accountsid', 'auth_token')
 
     message = client.messages.create(
         to='+919137796495',
         from_='+18577676358',
-        body='MEDSAFE\nHospital A:- Dear Nishant, Your Appointment For Doctor Has Been Rejected!!',
+        body='MEDSAFE\nHospital A:- Dear Yash, Your Appointment For Doctor Rajiv Has Been Rejected!!',
         )
     print(message.sid)
     return redirect('admin-approve-appointment')
@@ -1080,15 +1090,6 @@ def report_pdf_view(request,pk):
     return render_to_pdf('hospital/report.html',dict)
 
 # chatbot/views.py
-import os
-from django.shortcuts import render
-import google.generativeai as genai
-from dotenv import load_dotenv
-import os
-import google.generativeai as genai
-
-# Load environment variables from .env file
-load_dotenv()
 
 # Configure Google Gemini API
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
