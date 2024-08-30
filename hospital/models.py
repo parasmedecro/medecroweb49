@@ -100,6 +100,68 @@ class PatientReport(models.Model):
     OtherReports=models.CharField(max_length=20)
 
 
+class LipidProfile(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patientId=models.PositiveIntegerField(null=True)
+    assignedDoctorName=models.CharField(max_length=40)
+    address = models.CharField(max_length=40)
+    mobile = models.CharField(max_length=20,null=True)
+    symptoms = models.CharField(max_length=100,null=True)
+
+    admitDate=models.DateField(null=False)
+    todayDate=models.DateField(null=False)
+
+    Cholestrol=models.CharField(max_length=40)
+    Triglyceride=models.CharField(max_length=40)
+    Hdl_cholestrol=models.CharField(max_length=40)
+    Ldl_cholestrol =models.CharField(max_length=40)
+    VLDL=models.CharField(max_length=40)
+    CHOL_HDL_ratio=models.CharField(max_length=40)
+    LDL_HDL_ratio=models.CharField(max_length=40)
+
+
+class Vitamin_Reports(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patientId=models.PositiveIntegerField(null=True)
+    assignedDoctorName=models.CharField(max_length=40)
+    address = models.CharField(max_length=40)
+    mobile = models.CharField(max_length=20,null=True)
+    symptoms = models.CharField(max_length=100,null=True)
+
+    admitDate=models.DateField(null=False)
+    todayDate=models.DateField(null=False)
+    
+    VitaminD12=models.CharField(max_length=40)
+    VitaminD3=models.CharField(max_length=40)
+
+
+class PPBS_Reports(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patientId=models.PositiveIntegerField(null=True)
+    assignedDoctorName=models.CharField(max_length=40)
+    address = models.CharField(max_length=40)
+    mobile = models.CharField(max_length=20,null=True)
+    symptoms = models.CharField(max_length=100,null=True)
+
+    admitDate=models.DateField(null=False)
+    todayDate=models.DateField(null=False)
+    
+    PostPrandialBloodSugar=models.CharField(max_length=40)
+
+
+class FBS_Reports(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patientId=models.PositiveIntegerField(null=True)
+    assignedDoctorName=models.CharField(max_length=40)
+    address = models.CharField(max_length=40)
+    mobile = models.CharField(max_length=20,null=True)
+    symptoms = models.CharField(max_length=100,null=True)
+
+    admitDate=models.DateField(null=False)
+    todayDate=models.DateField(null=False)
+    
+    FastingBloodSugar=models.CharField(max_length=40)
+
 
 class Video(models.Model):
     title = models.CharField(max_length=100)

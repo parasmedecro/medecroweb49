@@ -12,7 +12,7 @@ from django.conf import settings
 from django.db.models import Q
 from django.contrib import messages
 import os
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
@@ -623,23 +623,42 @@ def admin_approve_appointment_view(request):
     return render(request,'hospital/admin_approve_appointment.html',{'appointments':appointments})
 
 from twilio.rest import Client
+import pytz
+from datetime import datetime, timezone, timedelta
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def approve_appointment_view(request,pk):
     appointment=models.Appointment.objects.get(id=pk)
+    print(appointment.appointmentDate)
     appointment.status=True
     appointment.save()
     #Notify Patient
-
-    client = Client('accountsid', 'auth_token')
-
+    account_sid = 'ACb604cdff6ba558c3c2b0c563a69a9a02'
+    auth_token = 'fcd5d895f608ed8d9cce2e09311045d4'
+    client = Client(account_sid, auth_token)
     message = client.messages.create(
         to='+919137796495',
         from_='+18577676358',
         body='MEDSAFE\nHospital A:- Dear Yash, Your Appointment For Doctor Rajiv Has Been Approved!!',
         )
     print(message.sid)
+    time=appointment.appointmentDate - timedelta(hours=1)
+    original_time_str = str(time)
+    print(original_time_str)
+    original_time = datetime.strptime(original_time_str, '%Y-%m-%d %H:%M:%S%z')
+    target_timezone = timezone(timedelta(hours=5, minutes=30))
+    converted_time = original_time.replace(tzinfo=target_timezone)
+    send_when=converted_time
+    print(send_when)
+    messaging_service_sid = 'MG076a2e29b121411761f642ee568be06e'  
+    message = client.messages.create(
+        from_=messaging_service_sid,
+        to='+919137796495',  
+        body='MEDSAFE\nHospital A:- Dear Yash, Your Appointment is in 1 Hour',
+        schedule_type='fixed',
+        send_at=send_when.isoformat(),
+    )
     return redirect(reverse('admin-approve-appointment'))
 
 
@@ -921,48 +940,122 @@ def patient_discharge_view(request):
 
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
-def patient_report_view(request):
-    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
-    reportDetails=models.PatientReport.objects.all().filter(patientId=patient.id).order_by('-id')[:1]
+def patient_report_vitamin_view(request):
+    patient = get_object_or_404(models.Patient, user=request.user) #for profile picture of patient in sidebar
+    reportDetails=models.Vitamin_Reports.objects.filter(patient=patient)
     patientDict=None
     if reportDetails:
         patientDict ={
-        'is_discharged':True,
         'patient':patient,
-        'patientId':patient.id,
-        'patientName':patient.get_name,
+        'patientName':reportDetails[0].patient,
         'assignedDoctorName':reportDetails[0].assignedDoctorName,
-        'address':patient.address,
-        'mobile':patient.mobile,
-        'symptoms':patient.symptoms,
-        'admitDate':patient.admitDate,
+        'address':reportDetails[0].address,
+        'mobile':reportDetails[0].mobile,
+        'symptoms':reportDetails[0].symptoms,
+        'admitDate':reportDetails[0].admitDate,
         'todayDate':reportDetails[0].todayDate,
-        'bloodgroup':reportDetails[0].BloodGroup,
-        'postprandialbloodsugar':reportDetails[0].PostPrandialBloodSugar,
-        'fastingbloodreport':reportDetails[0].FastingBloodReport,
-        'cholestrol':reportDetails[0].Cholestrol,
-        'LDLCholestrol':reportDetails[0].LDLCholestrol,
-        'HDLCholestrol':reportDetails[0].HDLCholestrol,
-        'vitaminD3':reportDetails[0].VitaminD3,
-        'alergies':reportDetails[0].Alergies,
-        'otherreports':reportDetails[0].OtherReports,
+        'VitaminD12':reportDetails[0].VitaminD12,
+        'VitaminD3':reportDetails[0].VitaminD3,
         }
-        print(patientDict)
     else:
         patientDict={
-            'is_discharged':False,
             'patient':patient,
             'patientId':request.user.id,
         }
-    return render(request,'hospital/patient_report_view.html',context=patientDict)
+    return render(request,'hospital/patient_report_vitamin_view.html',context=patientDict)
 
 
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
-def patient_reports(request):
-    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
-    reports=models.PatientReport.objects.all().filter(patientName=patient.get_name)
-    return render(request,'hospital/patient_view_reports.html',{'reports':reports,'patient':patient})
+def patient_report_ppbs_view(request):
+    patient = get_object_or_404(models.Patient, user=request.user) #for profile picture of patient in sidebar
+    reportDetails=models.PPBS_Reports.objects.filter(patient=patient)
+    patientDict=None
+    if reportDetails:
+        patientDict ={
+        'patient':patient,
+        'patientName':reportDetails[0].patient,
+        'assignedDoctorName':reportDetails[0].assignedDoctorName,
+        'address':reportDetails[0].address,
+        'mobile':reportDetails[0].mobile,
+        'symptoms':reportDetails[0].symptoms,
+        'admitDate':reportDetails[0].admitDate,
+        'todayDate':reportDetails[0].todayDate,
+        'PostPrandialBloodSugar':reportDetails[0].PostPrandialBloodSugar,
+        }
+    else:
+        patientDict={
+            'patient':patient,
+            'patientId':request.user.id,
+        }
+    return render(request,'hospital/patient_report_ppbs_view.html',context=patientDict)
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_report_fbs_view(request):
+    patient = get_object_or_404(models.Patient, user=request.user) #for profile picture of patient in sidebar
+    reportDetails=models.FBS_Reports.objects.filter(patient=patient)
+    patientDict=None
+    if reportDetails:
+        patientDict ={
+        'patient':patient,
+        'patientName':reportDetails[0].patient,
+        'assignedDoctorName':reportDetails[0].assignedDoctorName,
+        'address':reportDetails[0].address,
+        'mobile':reportDetails[0].mobile,
+        'symptoms':reportDetails[0].symptoms,
+        'admitDate':reportDetails[0].admitDate,
+        'todayDate':reportDetails[0].todayDate,
+        'FastingBloodSugar':reportDetails[0].FastingBloodSugar,
+        }
+    else:
+        patientDict={
+            'patient':patient,
+            'patientId':request.user.id,
+        }
+    return render(request,'hospital/patient_report_fbs_view.html',context=patientDict)
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_report_lipid_view(request):
+    patient = get_object_or_404(models.Patient, user=request.user) #for profile picture of patient in sidebar
+    reportDetails=models.LipidProfile.objects.filter(patient=patient)
+    patientDict=None
+    if reportDetails:
+        patientDict ={
+        'patient':patient,
+        'patientName':patient.get_name,
+        'patientId':patient.id,
+        'assignedDoctorName':reportDetails[0].assignedDoctorName,
+        'address':reportDetails[0].address,
+        'mobile':reportDetails[0].mobile,
+        'symptoms':reportDetails[0].symptoms,
+        'admitDate':reportDetails[0].admitDate,
+        'todayDate':reportDetails[0].todayDate,
+        'Cholestrol':reportDetails[0].Cholestrol,
+        'Triglyceride':reportDetails[0].Triglyceride,
+        'Ldl_cholestrol':reportDetails[0].Ldl_cholestrol,
+        'Hdl_cholestrol':reportDetails[0].Hdl_cholestrol,
+        'VLDL':reportDetails[0].VLDL,
+        'CHOL_HDL_ratio':reportDetails[0].CHOL_HDL_ratio,
+        'LDL_HDL_ratio':reportDetails[0].LDL_HDL_ratio,
+        }
+    else:
+        patientDict={
+            'patient':patient,
+            'patientId':request.user.id,
+        }
+    return render(request,'hospital/patient_report_lipid_view.html',context=patientDict)
+
+
+# @login_required(login_url='patientlogin')
+# @user_passes_test(is_patient)
+# def patient_reports(request):
+#     patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+#     reports=models.PatientReport.objects.all().filter(patientName=patient.get_name)
+#     return render(request,'hospital/patient_view_reports.html',{'reports':reports,'patient':patient})
 
 
 #------------------------ PATIENT RELATED VIEWS END ------------------------------
@@ -1014,11 +1107,11 @@ def admin_patient_report_view(request):
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
-def admin_patient_report_generate(request,pk):
+def admin_patient_report_generate_lipid(request,pk):
     patient=models.Patient.objects.get(id=pk)
     assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
    
-    patientDict={
+    patientLipidDict={
         'patientId':pk,
         'name':patient.get_name,
         'mobile':patient.mobile,
@@ -1030,64 +1123,217 @@ def admin_patient_report_generate(request,pk):
     }
     if request.method == 'POST':
         ReportDic ={
-            'bloodgroup':request.POST['bloodgroup'],
-            'postprandialbloodsugar':request.POST['postprandialbloodsugar'],
-            'fastingbloodreport' : request.POST['fastingbloodreport'],
-            'cholestrol':request.POST['cholestrol'],
-            'LDLCholestrol':request.POST['LDLCholestrol'],
-            'HDLCholestrol':request.POST['HDLCholestrol'],
-            'vitaminD3':request.POST['vitaminD3'],
-            'alergies':request.POST['alergies'],  
-            'otherreports' : request.POST['otherreports'],
+            'Cholestrol':request.POST['Cholestrol'],
+            'Triglyceride':request.POST['Triglyceride'],
+            'Ldl_cholestrol' : request.POST['Ldl_cholestrol'],
+            'Hdl_cholestrol':request.POST['Hdl_cholestrol'],
+            'VLDL':request.POST['VLDL'],
+            'CHOL_HDL_ratio':request.POST['CHOL_HDL_ratio'],
+            'LDL_HDL_ratio':request.POST['LDL_HDL_ratio'],
         }
-        patientDict.update(ReportDic)
-        #for updating to database PatientDischargeDetail (pDD)
-        pDD=models.PatientReport()
-        pDD.patientId=pk
-        pDD.patientName=patient.get_name
-        pDD.assignedDoctorName=assignedDoctor[0].first_name
-        pDD.address=patient.address
-        pDD.mobile=patient.mobile
-        pDD.symptoms=patient.symptoms
-        pDD.admitDate=patient.admitDate
-        pDD.todayDate=date.today()
-        pDD.BloodGroup=request.POST['bloodgroup']
-        pDD.PostPrandialBloodSugar=request.POST['postprandialbloodsugar']
-        pDD.FastingBloodReport=request.POST['fastingbloodreport']
-        pDD.Cholestrol=request.POST['cholestrol']
-        pDD.LDLCholestrol=request.POST['LDLCholestrol']
-        pDD.HDLCholestrol=request.POST['HDLCholestrol'] 
-        pDD.VitaminD3=request.POST['vitaminD3']
-        pDD.Alergies=request.POST['alergies']     
-        pDD.OtherReports=request.POST['otherreports']
-        pDD.save()
-        return render(request,'hospital/admin_patient_report_generate_view.html',context=patientDict)
-    return render(request,'hospital/admin_patient_report_generate.html',context=patientDict)
+        patientLipidDict.update(ReportDic)
+        #for updating to database PatientDischargeDetail (pLD)
+        pLD=models.LipidProfile()
+        pLD.patientId=pk
+        pLD.patient=patient
+        pLD.assignedDoctorName=assignedDoctor[0].first_name
+        pLD.address=patient.address
+        pLD.mobile=patient.mobile
+        pLD.symptoms=patient.symptoms
+        pLD.admitDate=patient.admitDate
+        pLD.todayDate=date.today()
+        pLD.Cholestrol=request.POST['Cholestrol']
+        pLD.Triglyceride=request.POST['Triglyceride']
+        pLD.Ldl_cholestrol=request.POST['Ldl_cholestrol']
+        pLD.Hdl_cholestrol=request.POST['Hdl_cholestrol'] 
+        pLD.VLDL=request.POST['VLDL']
+        pLD.CHOL_HDL_ratio=request.POST['CHOL_HDL_ratio']
+        pLD.LDL_HDL_ratio=request.POST['LDL_HDL_ratio']
+        pLD.save()
+        return render(request,'hospital/admin_patient_report_generate_view_lipid.html',context=patientLipidDict)
+    return render(request,'hospital/admin_patient_lipid_report_generate.html',context=patientLipidDict)
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_patient_report_generate_ppbs(request,pk):
+    patient=models.Patient.objects.get(id=pk)
+    assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
+   
+    patientppbsDict={
+        'patientId':pk,
+        'name':patient.get_name,
+        'mobile':patient.mobile,
+        'address':patient.address,
+        'symptoms':patient.symptoms,
+        'admitDate':patient.admitDate,
+        'todayDate':date.today(),
+        'assignedDoctorName':assignedDoctor[0].first_name,
+    }
+    if request.method == 'POST':
+        ReportDic ={
+            'PostPrandialBloodSugar':request.POST['PostPrandialBloodSugar'],
+        }
+        patientppbsDict.update(ReportDic)
+        #for updating to database PatientDischargeDetail (pLD)
+        pPD=models.PPBS_Reports()
+        pPD.patientId=pk
+        pPD.patient=patient
+        pPD.assignedDoctorName=assignedDoctor[0].first_name
+        pPD.address=patient.address
+        pPD.mobile=patient.mobile
+        pPD.symptoms=patient.symptoms
+        pPD.admitDate=patient.admitDate
+        pPD.todayDate=date.today()
+        pPD.PostPrandialBloodSugar=request.POST['PostPrandialBloodSugar']
+        pPD.save()
+        return render(request,'hospital/admin_patient_report_generate_view_ppbs.html',context=patientppbsDict)
+    return render(request,'hospital/admin_patient_ppbs_report_generate.html',context=patientppbsDict)
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_patient_report_generate_fbs(request,pk):
+    patient=models.Patient.objects.get(id=pk)
+    assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
+   
+    patientppbsDict={
+        'patientId':pk,
+        'name':patient.get_name,
+        'mobile':patient.mobile,
+        'address':patient.address,
+        'symptoms':patient.symptoms,
+        'admitDate':patient.admitDate,
+        'todayDate':date.today(),
+        'assignedDoctorName':assignedDoctor[0].first_name,
+    }
+    if request.method == 'POST':
+        ReportDic ={
+            'FastingBloodSugar':request.POST['FastingBloodSugar'],
+        }
+        patientppbsDict.update(ReportDic)
+        #for updating to database PatientDischargeDetail (pLD)
+        pPD=models.FBS_Reports()
+        pPD.patientId=pk
+        pPD.patient=patient
+        pPD.assignedDoctorName=assignedDoctor[0].first_name
+        pPD.address=patient.address
+        pPD.mobile=patient.mobile
+        pPD.symptoms=patient.symptoms
+        pPD.admitDate=patient.admitDate
+        pPD.todayDate=date.today()
+        pPD.FastingBloodSugar=request.POST['FastingBloodSugar']
+        pPD.save()
+        return render(request,'hospital/admin_patient_report_generate_view_fbs.html',context=patientppbsDict)
+    return render(request,'hospital/admin_patient_fbs_report_generate.html',context=patientppbsDict)
+
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_patient_report_generate_vitamin(request,pk):
+    patient=models.Patient.objects.get(id=pk)
+    assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
+   
+    patientppbsDict={
+        'patientId':pk,
+        'name':patient.get_name,
+        'mobile':patient.mobile,
+        'address':patient.address,
+        'symptoms':patient.symptoms,
+        'admitDate':patient.admitDate,
+        'todayDate':date.today(),
+        'assignedDoctorName':assignedDoctor[0].first_name,
+    }
+    if request.method == 'POST':
+        ReportDic ={
+            'VitaminD12':request.POST['VitaminD12'],
+            'VitaminD3':request.POST['VitaminD3'],
+        }
+        patientppbsDict.update(ReportDic)
+        #for updating to database PatientDischargeDetail (pLD)
+        pPD=models.Vitamin_Reports()
+        pPD.patientId=pk
+        pPD.patient=patient
+        pPD.assignedDoctorName=assignedDoctor[0].first_name
+        pPD.address=patient.address
+        pPD.mobile=patient.mobile
+        pPD.symptoms=patient.symptoms
+        pPD.admitDate=patient.admitDate
+        pPD.todayDate=date.today()
+        pPD.VitaminD12=request.POST['VitaminD12']
+        pPD.VitaminD3=request.POST['VitaminD3']
+        pPD.save()
+        return render(request,'hospital/admin_patient_report_generate_view_vitamin.html',context=patientppbsDict)
+    return render(request,'hospital/admin_patient_vitamin_report_generate.html',context=patientppbsDict)
 
 
 
 
-def report_pdf_view(request,pk):
-    reportDetails=models.PatientReport.objects.all().filter(patientId=pk).order_by('-id')[:1]
+def report_pdf_view_lipid(request,pk):
+    reportDetails=models.LipidProfile.objects.all().filter(patientId=pk).order_by('-id')[:1]
     dict={
-        'patientName':reportDetails[0].patientName,
+        'patientName':reportDetails[0].patient,
         'assignedDoctorName':reportDetails[0].assignedDoctorName,
         'address':reportDetails[0].address,
         'mobile':reportDetails[0].mobile,
         'symptoms':reportDetails[0].symptoms,
         'admitDate':reportDetails[0].admitDate,
         'todayDate':reportDetails[0].todayDate,
-        'bloodgroup':reportDetails[0].BloodGroup,
-        'postprandialbloodsugar':reportDetails[0].PostPrandialBloodSugar,
-        'fastingbloodreport':reportDetails[0].FastingBloodReport,
-        'cholestrol':reportDetails[0].Cholestrol,
-        'LDLCholestrol':reportDetails[0].LDLCholestrol,
-        'HDLCholestrol':reportDetails[0].HDLCholestrol,
-        'vitaminD3':reportDetails[0].VitaminD3,
-        'alergies':reportDetails[0].Alergies,
-        'otherreports':reportDetails[0].OtherReports,
+        'Cholestrol':reportDetails[0].Cholestrol,
+        'Triglyceride':reportDetails[0].Triglyceride,
+        'Ldl_cholestrol':reportDetails[0].Ldl_cholestrol,
+        'Hdl_cholestrol':reportDetails[0].Hdl_cholestrol,
+        'VLDL':reportDetails[0].VLDL,
+        'CHOL_HDL_ratio':reportDetails[0].CHOL_HDL_ratio,
+        'LDL_HDL_ratio':reportDetails[0].LDL_HDL_ratio,
     }
-    return render_to_pdf('hospital/report.html',dict)
+    return render_to_pdf('hospital/report_lipid.html',dict)
+
+
+def report_pdf_view_ppbs(request,pk):
+    reportDetails=models.PPBS_Reports.objects.all().filter(patientId=pk).order_by('-id')[:1]
+    dict={
+        'patientName':reportDetails[0].patient,
+        'assignedDoctorName':reportDetails[0].assignedDoctorName,
+        'address':reportDetails[0].address,
+        'mobile':reportDetails[0].mobile,
+        'symptoms':reportDetails[0].symptoms,
+        'admitDate':reportDetails[0].admitDate,
+        'todayDate':reportDetails[0].todayDate,
+        'PostPrandialBloodSugar':reportDetails[0].PostPrandialBloodSugar,
+    }
+    return render_to_pdf('hospital/report_ppbs.html',dict)
+
+
+def report_pdf_view_vitamin(request,pk):
+    reportDetails=models.Vitamin_Reports.objects.all().filter(patientId=pk).order_by('-id')[:1]
+    dict={
+        'patientName':reportDetails[0].patient,
+        'assignedDoctorName':reportDetails[0].assignedDoctorName,
+        'address':reportDetails[0].address,
+        'mobile':reportDetails[0].mobile,
+        'symptoms':reportDetails[0].symptoms,
+        'admitDate':reportDetails[0].admitDate,
+        'todayDate':reportDetails[0].todayDate,
+        'VitaminD12':reportDetails[0].VitaminD12,
+        'VitaminD3':reportDetails[0].VitaminD3,
+    }
+    return render_to_pdf('hospital/report_vitamin.html',dict)
+
+
+def report_pdf_view_fbs(request,pk):
+    reportDetails=models.FBS_Reports.objects.all().filter(patientId=pk).order_by('-id')[:1]
+    dict={
+        'patientName':reportDetails[0].patient,
+        'assignedDoctorName':reportDetails[0].assignedDoctorName,
+        'address':reportDetails[0].address,
+        'mobile':reportDetails[0].mobile,
+        'symptoms':reportDetails[0].symptoms,
+        'admitDate':reportDetails[0].admitDate,
+        'todayDate':reportDetails[0].todayDate,
+        'FastingBloodSugar':reportDetails[0].FastingBloodSugar,
+    }
+    return render_to_pdf('hospital/report_fbs.html',dict)
 
 # chatbot/views.py
 
@@ -1203,3 +1449,44 @@ def search_doctor_reports_view(request):
     query = request.GET['query']
     doctors=models.Doctor.objects.all().filter(status=True).filter(Q(department__icontains=query)| Q(user__first_name__icontains=query))
     return render(request,'hospital/patient_view_reports.html',{'patient':patient,'doctors':doctors})
+
+
+def patient_reports(request):
+    patient=models.Patient.objects.get(user_id=request.user.id)
+    return render(request,'patient_reports.html',{'patient':patient})
+
+def admin_patient_report_select(request,pk):
+    patient=models.Patient.objects.get(id=pk)
+    return render(request,'hospital/admin_patient_report_select.html',{'patient':patient})
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_reports_lipid(request):
+    patient = get_object_or_404(models.Patient, user=request.user) #for profile picture of patient in sidebar
+    reports = models.LipidProfile.objects.filter(patient=patient)
+    return render(request,'hospital/patient_view_lipid_reports.html',{'reports':reports,'patient':patient})
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_reports_vitamin(request):
+    patient = get_object_or_404(models.Patient, user=request.user) #for profile picture of patient in sidebar
+    reports = models.Vitamin_Reports.objects.filter(patient=patient)
+    return render(request,'hospital/patient_view_vitamin_reports.html',{'reports':reports,'patient':patient})
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_reports_ppbs(request):
+    patient = get_object_or_404(models.Patient, user=request.user) #for profile picture of patient in sidebar
+    reports = models.PPBS_Reports.objects.filter(patient=patient)
+    return render(request,'hospital/patient_view_ppbs_reports.html',{'reports':reports,'patient':patient})
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_reports_fbs(request):
+    patient = get_object_or_404(models.Patient, user=request.user) #for profile picture of patient in sidebar
+    reports = models.FBS_Reports.objects.filter(patient=patient)
+    return render(request,'hospital/patient_view_fbs_reports.html',{'reports':reports,'patient':patient})

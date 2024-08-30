@@ -1,0 +1,281 @@
+{% extends 'hospital/admin_base.html' %} {% load static %} {% block content %}
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="./vars.css" />
+<link rel="stylesheet" href="./style.css" />
+
+<style>
+  a,
+  button,
+  input,
+  select,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: none;
+    text-decoration: none;
+    background: none;
+
+    -webkit-font-smoothing: antialiased;
+  }
+
+  menu,
+  ol,
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  .index,
+  .index * {
+    box-sizing: border-box;
+  }
+  .index {
+    background: #ffffff;
+    border-radius: 20px;
+    height: 1279px;
+    position: relative;
+    overflow: hidden;
+  }
+  .group-17 {
+    position: absolute;
+    inset: 0;
+  }
+  .rectangle-2 {
+    background: #a3dac2;
+    border-radius: 26px;
+    width: 584px;
+    height: 350px;
+    position: absolute;
+    left: calc(50% - 491px);
+    top: 164px;
+  }
+  .make-a-lipid-profile-report {
+    color: #004323;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 33px;
+    font-weight: 400;
+    position: absolute;
+    left: calc(50% - 454px);
+    top: 193px;
+    width: 439px;
+    height: 47px;
+    -webkit-text-stroke: 0.5px #2a1919;
+  }
+  .cholestrol-hdl-cholestrol-ldl-cholestrol {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 22.934362411499023px;
+    font-weight: 400;
+    position: absolute;
+    left: calc(50% - 454px);
+    top: 256px;
+    width: 203px;
+    height: 87px;
+  }
+  ._9851796-1 {
+    border-radius: 32px 32px 32px 0px;
+    opacity: 0.7;
+    width: 184px;
+    height: 184px;
+    position: absolute;
+    left: 869px;
+    top: 331px;
+    mix-blend-mode: multiply;
+    object-fit: cover;
+  }
+  .group-18 {
+    position: absolute;
+    inset: 0;
+  }
+  .rectangle-3 {
+    background: #a5ccff;
+    border-radius: 26px;
+    width: 584px;
+    height: 350px;
+    position: absolute;
+    right: 171px;
+    top: 168.34px;
+    overflow: visible;
+  }
+  .make-a-vitamin-test-report {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 33px;
+    font-weight: 400;
+    position: absolute;
+    right: 280px;
+    top: 197.34px;
+    width: 443px;
+    height: 51px;
+    -webkit-text-stroke: 0.5px #000000;
+  }
+  .oip-1 {
+    border-radius: 0px 0px 46px 0px;
+    opacity: 0.7;
+    width: 186px;
+    height: 186px;
+    position: absolute;
+    right: 171px;
+    top: 329.34px;
+    mix-blend-mode: multiply;
+    object-fit: cover;
+  }
+  .vitamin-d-12-vitamin-d-3 {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 24.095932006835938px;
+    font-weight: 400;
+    position: absolute;
+    right: 449px;
+    top: 256px;
+    width: 270px;
+    height: 57px;
+  }
+  .group-19 {
+    position: absolute;
+    inset: 0;
+  }
+  .rectangle-4 {
+    background: #e7c2d4;
+
+    border-radius: 26px;
+    width: 584px;
+    height: 350px;
+    position: absolute;
+    left: calc(50% - 491px);
+    top: 610.34px;
+    overflow: visible;
+  }
+  .make-a-ppbs-report {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 33px;
+    font-weight: 400;
+    position: absolute;
+    left: calc(50% - 454px);
+    top: 638.34px;
+    width: 344px;
+    height: 40px;
+    -webkit-text-stroke: 0.5px #000000;
+  }
+  .post-prandial-blood-sugar {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 24.319726943969727px;
+    font-weight: 400;
+    position: absolute;
+    left: calc(50% - 454px);
+    top: 694.34px;
+    width: 325px;
+    height: 36.93px;
+  }
+  .oip-2 {
+    opacity: 0.7;
+    width: 157px;
+    height: 157px;
+    position: absolute;
+    left: 882px;
+    top: 795.34px;
+    mix-blend-mode: multiply;
+    object-fit: cover;
+  }
+  .group-20 {
+    position: absolute;
+    inset: 0;
+  }
+  .rectangle-8 {
+    background: #f0da69;
+    border-radius: 26px;
+    width: 584px;
+    height: 350px;
+    position: absolute;
+    right: 171px;
+    top: 610.34px;
+  }
+  .make-a-fbs-report {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 33px;
+    font-weight: 400;
+    position: absolute;
+    right: 420px;
+    top: 638.34px;
+    width: 299px;
+    height: 40px;
+    -webkit-text-stroke: 0.5px #000000;
+  }
+  .fasting-blood-sugar {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 27.58513832092285px;
+    font-weight: 400;
+    position: absolute;
+    right: 449px;
+    top: 690.34px;
+    width: 270px;
+    height: 33.44px;
+  }
+  .fasting-png-picture-1 {
+    opacity: 0.7;
+    width: 155px;
+    height: 155px;
+    position: absolute;
+    right: 186px;
+    top: 785px;
+    mix-blend-mode: multiply;
+    object-fit: cover;
+  }
+</style>
+<title>Document</title>
+<body>
+  <div class="index">
+    <a href="/admin-patient-report/{{ patient.id }}/lipid" a>
+    <div class="rectangle-2"></div>
+    <div class="make-a-lipid-profile-report">Make a Lipid Profile report</div>
+    <div class="cholestrol-hdl-cholestrol-ldl-cholestrol">
+      <ol class="cholestrol-hdl-cholestrol-ldl-cholestrol-span">
+        <li>Cholestrol</li>
+        <li>HDL Cholestrol</li>
+        <li>LDL cholestrol</li>
+      </ol>
+    </div>
+    <img class="_9851796-1" src="_9851796-10.png" />
+    <a href="/admin-patient-report/{{ patient.id }}/vitamin" a>
+    <div class="rectangle-3"></div>
+    <div class="make-a-vitamin-test-report">Make a Vitamin Test Report</div>
+    <img class="oip-1" src="oip-10.png" />
+    <div class="vitamin-d-12-vitamin-d-3">
+      <ol class="vitamin-d-12-vitamin-d-3-span">
+        <li>vitamin d12</li>
+        <li>vitamin d3</li>
+      </ol>
+    </div>
+    <a href="/admin-patient-report/{{ patient.id }}/ppbs" a>
+    <div class="rectangle-4"></div>
+    <div class="make-a-ppbs-report">Make a PPBS Report</div>
+    <div class="post-prandial-blood-sugar">Post Prandial Blood Sugar</div>
+    <img class="oip-2" src="oip-20.png" />
+    <a href="/admin-patient-report/{{ patient.id }}/fbs" a>
+    <div class="rectangle-8"></div>
+    <div class="make-a-fbs-report">Make a FBS report</div>
+    <div class="fasting-blood-sugar">Fasting Blood Sugar</div>
+    <img class="fasting-png-picture-1" src="fasting-png-picture-10.png" />
+  </div>
+</body>
+{% endblock content %}
