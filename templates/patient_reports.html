@@ -40,11 +40,13 @@
     box-sizing: border-box;
   }
   .index {
-    background: #ffffff;
+   
     border-radius: 20px;
     height: 1279px;
     position: relative;
     overflow: hidden;
+    right: 300px;
+    top: -60px;
   }
   .group-17 {
     position: absolute;
@@ -243,13 +245,59 @@
     mix-blend-mode: multiply;
     object-fit: cover;
   }
+  .menu {
+      background: #5bc995;
+      border-radius: 29px;
+      height: 73vh;
+      width: 240px;
+      position: fixed;
+      
+      top: 145px;
+      margin-left: 10px;
+      left: 0;
+      z-index: 5;
+      outline: none;
+    }
+    .bs-example{
+      width: 98.5%;
+      height: 80px;
+background-color: #E1E1E1;
+border-radius: 20px;
+margin: 15px;
+position: fixed;
+left: 0px;
+    }
+    .navbar-brand{
+      
+      margin-top: 21px;
+      margin-left: 15px;
+    
+    }
+    .navbar-nav{
+      margin-top: 21px;
+    }
+    .logout{
+      background-color: #e05353;
+      color: rgb(255, 244, 244);
+      border-radius: 15px; 
+      font-size: 25px;
+    }
+    .logout{
+      padding: 1px;
+      border: 1px solid black;
+      background-color: #e05353;
+      color: rgb(255, 244, 244);
+      border-radius: 15px; 
+      font-size: 25px;
+    }
+  
 </style>
 <title>Document</title>
 <body>
   <div class="index">
     <a href="patient-reports-lipid" a>
     <div class="rectangle-2"></div>
-    <div class="make-a-lipid-profile-report">Make a Lipid Profile report</div>
+    <div class="make-a-lipid-profile-report">Lipid Profile Reports</div>
     <div class="cholestrol-hdl-cholestrol-ldl-cholestrol">
       <ol class="cholestrol-hdl-cholestrol-ldl-cholestrol-span">
         <li>Cholestrol</li>
@@ -257,11 +305,11 @@
         <li>LDL cholestrol</li>
       </ol>
     </div>
-    <img class="_9851796-1" src="_9851796-10.png" />
+    <img class="_9851796-1" src="{% static 'images/98517961.png' %}" />
     <a href="patient-reports-vitamin" a>
     <div class="rectangle-3"></div>
-    <div class="make-a-vitamin-test-report">Make a Vitamin Test Report</div>
-    <img class="oip-1" src="oip-10.png" />
+    <div class="make-a-vitamin-test-report">Vitamin Test Reports</div>
+    <img class="oip-1" src="{% static 'images/OIP1.png%}" />
     <div class="vitamin-d-12-vitamin-d-3">
       <ol class="vitamin-d-12-vitamin-d-3-span">
         <li>vitamin d12</li>
@@ -270,14 +318,14 @@
     </div>
     <a href="patient-reports-ppbs" a>
     <div class="rectangle-4"></div>
-    <div class="make-a-ppbs-report">Make a PPBS Report</div>
+    <div class="make-a-ppbs-report">PPBS Reports</div>
     <div class="post-prandial-blood-sugar">Post Prandial Blood Sugar</div>
-    <img class="oip-2" src="oip-20.png" />
+    <img class="oip-2" src="{% static 'images/OIP2.png' %}" />
     <a href="patient-reports-fbs" a>
     <div class="rectangle-8"></div>
-    <div class="make-a-fbs-report">Make a FBS report</div>
+    <div class="make-a-fbs-report">FBS reports</div>
     <div class="fasting-blood-sugar">Fasting Blood Sugar</div>
-    <img class="fasting-png-picture-1" src="fasting-png-picture-10.png" />
+    <img class="fasting-png-picture-1" src="{% static 'images/Fasting-PNG-Picture1.png' %}" />
   </div>
 </body>
 {% endblock content %}
